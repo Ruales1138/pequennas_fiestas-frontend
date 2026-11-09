@@ -2,7 +2,25 @@ import { useEffect, useState } from 'react'
 import { apiRequest } from '@/lib/apiClient'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 
-function ResourceSummary({ title, items, label }) {
+type AdminResource = {
+  id: string
+  name?: string
+  title?: string
+  email?: string
+  role?: string
+}
+
+type AdminResponse = {
+  data?: AdminResource[]
+}
+
+type ResourceSummaryProps = {
+  title: string
+  items: AdminResource[]
+  label: string
+}
+
+function ResourceSummary({ title, items, label }: ResourceSummaryProps) {
   return (
     <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="flex items-center justify-between gap-4">
@@ -30,7 +48,11 @@ function ResourceSummary({ title, items, label }) {
 }
 
 export default function AdminPage() {
-  const [resources, setResources] = useState({ users: [], artists: [], bookings: [] })
+  const [resources, setResources] = useState<{ users: AdminResource[]; artists: AdminResource[]; bookings: AdminResource[] }>({
+    users: [],
+    artists: [],
+    bookings: [],
+  })
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -40,28 +62,30 @@ export default function AdminPage() {
     async function loadAdminResources() {
       try {
         const [usersPayload, artistsPayload, bookingsPayload] = await Promise.all([
-          apiRequest('/api/admin/users'),
-          apiRequest('/api/admin/artists'),
-          apiRequest('/api/admin/bookings'),
+          apiRequest<AdminResponse>('/api/admin/users'),
+          apiRequest<AdminResponse>('/api/admin/artists'),
+          apiRequest<AdminResponse>('/api/admin/bookings'),
         ])
 
         if (active) {
           setResources({
-            users: usersPayload?.data || [],
-            artists: artistsPayload?.data || [],
-            bookings: bookingsPayload?.data || [],
+            users: usersPayload?.data ?? [],
+            artists: artistsPayload?.data ?? [],
+            bookings: bookingsPayload?.data ?? [],
           })
         }
       } catch (requestError) {
         if (active) {
-          setError(requestError.message || 'No se pudo cargar la información administrativa.')
+          const message = requestError instanceof Error ? requestError.message : 'No se pudo cargar la información administrativa.'
+          setError(message)
         }
       } finally {
         if (active) setIsLoading(false)
       }
     }
 
-    loadAdminResources()
+    void loadAdminResources()
+
     return () => {
       active = false
     }
