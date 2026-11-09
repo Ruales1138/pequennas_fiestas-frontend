@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import BookingDetailModal from '@/features/booking/BookingDetailModal'
-
-const API_BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000'
+import { apiRequest } from '@/lib/apiClient'
 
 const STATUS_STYLES = {
   pendiente: 'bg-amber-100 text-amber-700',
@@ -18,8 +17,7 @@ export default function ArtistBookingsList() {
 
   // Fetch de las reservas del artista logueado
   useEffect(() => {
-    fetch(`${API_BASE_URL}/api/bookings/artist`, { credentials: 'include' })
-      .then((res) => res.json())
+    apiRequest('/api/bookings/artist')
       .then((json) => setBookings(json.data ?? []))
       .catch(() => setError('No se pudieron cargar las reservas'))
       .finally(() => setIsLoading(false))
@@ -29,13 +27,10 @@ export default function ArtistBookingsList() {
   const handleStatusChange = async (id, status) => {
     setIsUpdating(true)
     try {
-      const res = await fetch(`${API_BASE_URL}/api/bookings/${id}/status`, {
+      const { data } = await apiRequest(`/api/bookings/${id}/status`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
         body: JSON.stringify({ status }),
       })
-      const { data } = await res.json()
 
       // Actualizar en la lista local
       setBookings((prev) =>

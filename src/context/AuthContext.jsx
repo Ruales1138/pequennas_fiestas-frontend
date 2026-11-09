@@ -1,18 +1,26 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { authClient } from "@/lib/authClient";
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
+    const navigate = useNavigate()
     const [user, setUser] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         authClient.getSession().then((session) => {
-            console.log("session resonde",session)
             setUser(session?.user || null)
             setIsLoading(false)
         })
+
+        const handleUnauthorized = () => {
+            setUser(null)
+            navigate('/login', { replace: true })
+        }
+        window.addEventListener('gigashow:unauthorized', handleUnauthorized)
+        return () => window.removeEventListener('gigashow:unauthorized', handleUnauthorized)
     }, [])
 
     const signOut = async () => {

@@ -6,8 +6,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useAuth } from '@/context/AuthContext'
-
-const API_BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000'
+import { apiRequest } from '@/lib/apiClient'
 
 export default function BookingForm({ artist }) {
 	const [isSubmitting, setIsSubmitting] = useState(false)
@@ -105,12 +104,8 @@ export default function BookingForm({ artist }) {
 			const jobHoursValue = parseFloat(calculatedHours)
 			const agreedPriceValue = calculatedPrice ? parseFloat(calculatedPrice) : jobHoursValue * baseRate
 
-			const response = await fetch(`${API_BASE_URL}/api/bookings`, {
+			await apiRequest('/api/bookings', {
 				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				credentials: 'include',
 				body: JSON.stringify({
 					artistId: artist.userId ?? artist.id,
 					clientId: user.id,
@@ -121,12 +116,6 @@ export default function BookingForm({ artist }) {
 					agreedPrice: agreedPriceValue,
 				}),
 			})
-
-			const payload = await response.json()
-
-			if (!response.ok) {
-				throw new Error(payload.error || payload.message || 'Error al crear la reserva.')
-			}
 
 			setSubmitMessage({ type: 'success', text: 'Reserva creada exitosamente.' })
 			form.reset()
@@ -332,4 +321,3 @@ export default function BookingForm({ artist }) {
 		</>
 	)
 }
-

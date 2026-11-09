@@ -39,7 +39,6 @@ export const RegisterForm = ({ onSuccess }) => {
   })
 
   const onSubmit = async (data) => {
-    console.log('✅ onSubmit ejecutado', data)
     setServerError(null)
     setIsLoading(true)
     try {

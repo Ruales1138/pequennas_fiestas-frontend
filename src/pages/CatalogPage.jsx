@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import ArtistFilters from '@/features/artist/ArtistFilters'
 import ArtistCatalogContent from '@/features/artist/ArtistCatalogContent'
-
-const API_BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000'
+import { apiRequest } from '@/lib/apiClient'
 
 function CatalogPage() {
 	const [artists, setArtists] = useState([])
@@ -21,15 +20,9 @@ function CatalogPage() {
 				setLoading(true)
 				setError('')
 
-				const response = await fetch(`${API_BASE_URL}/api/artists`, {
+				const payload = await apiRequest('/api/artists', {
 					signal: controller.signal,
 				})
-
-				if (!response.ok) {
-					throw new Error('No se pudo cargar el catalogo de artistas.')
-				}
-
-				const payload = await response.json()
 				const nextArtists = Array.isArray(payload.data) ? payload.data : []
 				setArtists(nextArtists)
 				setLoading(false)

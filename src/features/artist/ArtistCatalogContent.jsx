@@ -1,8 +1,20 @@
+import { useEffect, useState } from 'react'
 import ArtistCard from '@/features/artist/ArtistCard'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 
 export default function ArtistCatalogContent({ filteredArtists, loading, error }) {
-    const displayedArtists = filteredArtists.slice(0, 15);
+    const pageSize = 15
+    const [currentPage, setCurrentPage] = useState(1)
+    const totalPages = Math.max(1, Math.ceil(filteredArtists.length / pageSize))
+
+    useEffect(() => {
+        setCurrentPage(1)
+    }, [filteredArtists])
+
+    const displayedArtists = filteredArtists.slice(
+        (currentPage - 1) * pageSize,
+        currentPage * pageSize,
+    )
 
 	return (
 		<section className="flex-1" id="pricing">
@@ -30,10 +42,36 @@ export default function ArtistCatalogContent({ filteredArtists, loading, error }
 				</p>
 			)}
 
-            {!loading && !error && filteredArtists.length > 15 && (
-                <p className="mt-12 text-center text-sm font-medium text-slate-500">
-                    Mostrando los primeros 15 resultados. Ajusta los filtros para refinar la búsqueda.
-                </p>
+            {!loading && !error && filteredArtists.length > 0 && (
+                <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
+                    <p className="text-sm text-slate-500">
+                        Mostrando {(currentPage - 1) * pageSize + 1}-
+                        {Math.min(currentPage * pageSize, filteredArtists.length)} de {filteredArtists.length}
+                    </p>
+                    {totalPages > 1 && (
+                        <nav aria-label="Paginación del catálogo" className="flex items-center gap-2">
+                            <button
+                                type="button"
+                                disabled={currentPage === 1}
+                                onClick={() => setCurrentPage((page) => page - 1)}
+                                className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-indigo-300 disabled:cursor-not-allowed disabled:opacity-40"
+                            >
+                                Anterior
+                            </button>
+                            <span className="text-sm font-semibold text-slate-700">
+                                Página {currentPage} de {totalPages}
+                            </span>
+                            <button
+                                type="button"
+                                disabled={currentPage === totalPages}
+                                onClick={() => setCurrentPage((page) => page + 1)}
+                                className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-indigo-300 disabled:cursor-not-allowed disabled:opacity-40"
+                            >
+                                Siguiente
+                            </button>
+                        </nav>
+                    )}
+                </div>
             )}
 		</section>
 	)

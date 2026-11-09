@@ -17,6 +17,7 @@ import { ErrorBoundary } from './components/layout/ErrorBoundary'
 import NotFoundPage from './pages/errors/NotFoundPage'
 import UnauthorizedPage from './pages/errors/UnauthorizedPage'
 import ServerErrorPage from './pages/errors/ServerErrorPage'
+import ProtectedRoute from './components/routing/ProtectedRoute'
 
 function App() {
   return (
@@ -28,13 +29,21 @@ function App() {
           <Route path="/catalog" element={<CatalogPage />} />
           <Route path="/detail/:id" element={<ArtistDetailsPage />} />
           <Route path="/detail" element={<Navigate to="/catalog" replace />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/dashboard" element={
+            <ProtectedRoute roles={['artista']}>
+              <DashboardPage />
+            </ProtectedRoute>
+          } />
           <Route path="/401" element={<UnauthorizedPage />} />
           <Route path="/500" element={<ServerErrorPage />} />
           <Route path="*" element={<NotFoundPage />} />
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/login' element={<LoginPage />} />
-          <Route path='/onboarding/artista' element={<OnboardingPage />} />
+          <Route path='/onboarding/artista' element={
+            <ProtectedRoute roles={['artista']}>
+              <OnboardingPage />
+            </ProtectedRoute>
+          } />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />

@@ -43,7 +43,6 @@ export const LoginForm = ({ onSuccess }) => {
       form.reset()
       navigate('/')
       onSuccess?.(result)
-      console.log(result);
       
     } catch (error) {
       setServerError(error instanceof Error ? error.message : 'Error al iniciar sesión')

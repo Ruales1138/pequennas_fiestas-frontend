@@ -5,8 +5,7 @@ import ArtistDetailsLoading from '@/features/artist/ArtistDetailsLoading'
 import ArtistDetailsError from '@/features/artist/ArtistDetailsError'
 import BookingForm from '@/features/booking/BookingForm'
 import { useAuth } from '@/context/AuthContext'
-
-const API_BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000'
+import { apiRequest } from '@/lib/apiClient'
 
 function ArtistDetailsPage() {
 	const { id } = useParams()
@@ -49,15 +48,9 @@ function ArtistDetailsPage() {
 				setLoading(true)
 				setError('')
 
-				const response = await fetch(`${API_BASE_URL}/api/artists/${id}`, {
+				const payload = await apiRequest(`/api/artists/${id}`, {
 					signal: controller.signal,
 				})
-
-				const payload = await response.json()
-
-				if (!response.ok) {
-					throw new Error(payload.message || 'No se pudo cargar el artista.')
-				}
 
 				setArtist(payload.data ?? null)
 				setLoading(false)

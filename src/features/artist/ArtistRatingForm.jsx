@@ -2,8 +2,7 @@ import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
 import ArtistRatingStars from './ArtistRatingStars'
-
-const API_BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000'
+import { apiRequest } from '@/lib/apiClient'
 
 export default function ArtistRatingForm({ artistId, artistName, onSubmitted }) {
 	const { user } = useAuth()
@@ -45,23 +44,13 @@ export default function ArtistRatingForm({ artistId, artistName, onSubmitted }) 
 		setMessage({ type: '', text: '' })
 
 		try {
-			const response = await fetch(`${API_BASE_URL}/api/artists/${artistId}/ratings`, {
+			const payload = await apiRequest(`/api/artists/${artistId}/ratings`, {
 				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				credentials: 'include',
 				body: JSON.stringify({
 					rating,
 					comment,
 				}),
 			})
-
-			const payload = await response.json()
-
-			if (!response.ok) {
-				throw new Error(payload.message || 'No se pudo guardar la calificación.')
-			}
 
 			setMessage({ type: 'success', text: 'Tu calificación se guardó correctamente.' })
 			setComment('')
