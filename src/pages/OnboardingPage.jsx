@@ -1,4 +1,4 @@
-import ArtistProfileForm from "../features/auth/ArtistProfileForm"
+import ArtistProfileForm from "../features/auth/ArtistProfileForm.tsx"
 import { Navigate, useNavigate } from "react-router-dom"
 export function OnboardingPage() {
     const navigate = useNavigate()
