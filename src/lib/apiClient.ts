@@ -1,11 +1,13 @@
+import type { ApiError, ApiErrorPayload } from '@/types/api'
+
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
 const ACCESS_TOKEN_KEY = 'gigashow_access_token'
 
-export function getAccessToken() {
+export function getAccessToken(): string | null {
   return window.localStorage.getItem(ACCESS_TOKEN_KEY)
 }
 
-export function setAccessToken(token) {
+export function setAccessToken(token?: string | null): void {
   if (token) {
     window.localStorage.setItem(ACCESS_TOKEN_KEY, token)
   } else {
@@ -13,13 +15,16 @@ export function setAccessToken(token) {
   }
 }
 
-function getErrorMessage(payload, fallback) {
+function getErrorMessage(payload: ApiErrorPayload | null, fallback: string): string {
   if (typeof payload?.message === 'string') return payload.message
   if (typeof payload?.error === 'string') return payload.error
   return fallback
 }
 
-export async function apiRequest(path, options = {}) {
+export async function apiRequest<T = unknown>(
+  path: string,
+  options: RequestInit = {},
+): Promise<T> {
   const headers = new Headers(options.headers)
   const token = getAccessToken()
 
@@ -37,10 +42,10 @@ export async function apiRequest(path, options = {}) {
     credentials: 'include',
   })
 
-  let payload = null
+  let payload: T | null = null
   const contentType = response.headers.get('content-type') || ''
   if (contentType.includes('application/json')) {
-    payload = await response.json()
+    payload = (await response.json()) as T
   }
 
   if (response.status === 401) {
@@ -50,14 +55,14 @@ export async function apiRequest(path, options = {}) {
 
   if (!response.ok) {
     const error = new Error(
-      getErrorMessage(payload, `La solicitud falló (${response.status}).`),
-    )
+      getErrorMessage(payload as ApiErrorPayload | null, `La solicitud falló (${response.status}).`),
+    ) as ApiError
     error.status = response.status
-    error.payload = payload
+    error.payload = payload as ApiErrorPayload | null
     throw error
   }
 
-  return payload
+  return payload as T
 }
 
 export { API_BASE_URL }

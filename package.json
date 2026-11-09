@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "preview": "vite preview",
     "test:e2e": "playwright test"
@@ -37,6 +38,7 @@
     "globals": "^16.5.0",
     "@playwright/test": "^1.56.1",
     "shadcn": "^4.1.2",
+    "typescript": "^5.9.3",
     "vite": "^7.3.1"
   },
   "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
