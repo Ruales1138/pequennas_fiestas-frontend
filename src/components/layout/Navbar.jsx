@@ -26,7 +26,11 @@ export default function Navbar() {
                     </Link>
 
                     <div className="hidden items-center gap-x-6 md:flex">
-                        {user?.role === 'artista' ? (
+                        {user?.role === 'admin' ? (
+                            <Link to="/admin" className="font-sans font-semibold tracking-tight text-indigo-600 transition-colors duration-200 antialiased dark:text-indigo-400">
+                                Administración
+                            </Link>
+                        ) : user?.role === 'artista' ? (
                             <Link to="/dashboard" className="font-sans font-semibold tracking-tight text-indigo-600 transition-colors duration-200 antialiased dark:text-indigo-400">
                                 Dashboard
                             </Link>
@@ -60,7 +64,7 @@ export default function Navbar() {
                                 )}
                             </div>
                             <Link
-                                to={user.role === 'artista' ? '/dashboard' : '/'}
+                                to={user.role === 'admin' ? '/admin' : user.role === 'artista' ? '/dashboard' : '/'}
                                 className="text-sm font-medium text-slate-700 hover:text-indigo-600 dark:text-slate-300"
                             >
                                 {user.name || 'Mi panel'}
@@ -106,7 +110,11 @@ export default function Navbar() {
             {isMenuOpen && (
                 <div className="border-t border-slate-100 bg-white px-4 py-6 shadow-lg md:hidden dark:bg-slate-950 dark:border-slate-800">
                     <div className="flex flex-col gap-4">
-                        {user?.role === 'artista' ? (
+                        {user?.role === 'admin' ? (
+                            <Link to="/admin" onClick={closeMenu} className="text-lg font-semibold text-indigo-600">
+                                Administración
+                            </Link>
+                        ) : user?.role === 'artista' ? (
                             <Link to="/dashboard" onClick={closeMenu} className="text-lg font-semibold text-indigo-600">
                                 Dashboard
                             </Link>
@@ -141,7 +149,7 @@ export default function Navbar() {
                                         <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                                             {user.name || 'Mi panel'}
                                         </span>
-                                        <Link to={user.role === 'artista' ? '/dashboard' : '/'} onClick={closeMenu} className="text-xs text-slate-500 hover:text-indigo-600">
+                                        <Link to={user.role === 'admin' ? '/admin' : user.role === 'artista' ? '/dashboard' : '/'} onClick={closeMenu} className="text-xs text-slate-500 hover:text-indigo-600">
                                             Ver perfil
                                         </Link>
                                     </div>

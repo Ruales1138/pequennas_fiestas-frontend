@@ -18,6 +18,7 @@ import NotFoundPage from './pages/errors/NotFoundPage'
 import UnauthorizedPage from './pages/errors/UnauthorizedPage'
 import ServerErrorPage from './pages/errors/ServerErrorPage'
 import ProtectedRoute from './components/routing/ProtectedRoute'
+import AdminPage from './pages/AdminPage'
 
 function App() {
   return (
@@ -32,6 +33,11 @@ function App() {
           <Route path="/dashboard" element={
             <ProtectedRoute roles={['artista']}>
               <DashboardPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin" element={
+            <ProtectedRoute roles={['admin']}>
+              <AdminPage />
             </ProtectedRoute>
           } />
           <Route path="/401" element={<UnauthorizedPage />} />
