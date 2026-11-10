@@ -1,5 +1,6 @@
 export type Artist = {
   id: string
+  userId?: string
   name?: string
   category?: string
   city?: string
@@ -7,6 +8,7 @@ export type Artist = {
   ratingCount?: number
   imageUrl?: string
   hourlyRate?: number | string
+  baseRate?: number | string
 }
 
 export type ArtistDetail = Artist & {
@@ -14,6 +16,8 @@ export type ArtistDetail = Artist & {
   contactSocial?: string
   contactPhone?: string
   bio?: string
+  coverageArea?: string
+  isActive?: boolean
 }
 
 export type RatingMeta = {
@@ -23,6 +27,12 @@ export type RatingMeta = {
 
 export type ArtistListResponse = {
   data?: Artist[]
+  pagination?: {
+    total?: number
+    currentPage?: number
+    limit?: number
+    totalPages?: number
+  }
 }
 
 export type ArtistDetailResponse = {

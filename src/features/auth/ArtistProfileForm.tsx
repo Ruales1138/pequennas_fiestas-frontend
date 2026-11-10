@@ -7,6 +7,12 @@ import { z } from 'zod'
 import { artistProfileSchema } from './validation'
 import { authService } from './authService'
 import { apiRequest } from '@/lib/apiClient'
+import {
+  createArtistProfile,
+  deleteArtistProfile,
+  updateArtistProfile,
+} from '@/features/artist/artistService'
+import type { ArtistDetail } from '@/features/artist/types'
 
 const CATEGORIES = [
   { value: 'musica', label: 'Música en vivo' },
@@ -19,15 +25,34 @@ const CATEGORIES = [
 
 interface ArtistProfileFormProps {
   userId: string
+  artistId?: string
+  initialProfile?: ArtistDetail | null
   onSuccess?: () => void
 }
 
 type ArtistProfileFormValues = z.infer<typeof artistProfileSchema>
 type ArtistProfileFormInput = z.input<typeof artistProfileSchema>
 
+function getDefaultValues(profile?: ArtistDetail | null): ArtistProfileFormInput {
+  return {
+    bio: profile?.bio ?? '',
+    contactPhone: profile?.contactPhone ?? '',
+    contactSocial: profile?.contactSocial ?? '',
+    baseRate: profile?.hourlyRate ?? profile?.baseRate ?? '',
+    city: profile?.city ?? '',
+    coverageArea: profile?.coverageArea ?? '',
+    category: profile?.category as ArtistProfileFormInput['category'],
+  }
+}
+
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024
 
-export default function ArtistProfileForm({ userId, onSuccess }: ArtistProfileFormProps) {
+export default function ArtistProfileForm({
+  userId,
+  artistId,
+  initialProfile,
+  onSuccess,
+}: ArtistProfileFormProps) {
   const [serverError, setServerError] = useState<string | null>(null)
   const [imageError, setImageError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -37,16 +62,12 @@ export default function ArtistProfileForm({ userId, onSuccess }: ArtistProfileFo
 
   const form = useForm<ArtistProfileFormInput, unknown, ArtistProfileFormValues>({
     resolver: zodResolver(artistProfileSchema),
-    defaultValues: {
-      bio: '',
-      contactPhone: '',
-      contactSocial: '',
-      baseRate: '',
-      city: '',
-      coverageArea: '',
-      category: undefined,
-    },
+    defaultValues: getDefaultValues(initialProfile),
   })
+
+  useEffect(() => {
+    form.reset(getDefaultValues(initialProfile))
+  }, [form, initialProfile])
 
   useEffect(() => {
     return () => {
@@ -82,6 +103,7 @@ export default function ArtistProfileForm({ userId, onSuccess }: ArtistProfileFo
   const uploadImageLocal = async (file: File) => {
     const formData = new FormData()
     formData.append('image', file)
+    if (artistId) formData.append('artistId', artistId)
 
     const payload = await apiRequest<{ fileUrl: string }>('/api/upload/image', {
       method: 'POST',
@@ -101,8 +123,7 @@ export default function ArtistProfileForm({ userId, onSuccess }: ArtistProfileFo
         await authService.updateImageUser(imageUrl)
       }
 
-      await authService.updateArtistProfile({
-        userId,
+      const profile = {
         bio: data.bio,
         contactPhone: data.contactPhone,
         contactSocial: data.contactSocial,
@@ -110,7 +131,13 @@ export default function ArtistProfileForm({ userId, onSuccess }: ArtistProfileFo
         city: data.city,
         coverageArea: data.coverageArea,
         category: data.category,
-      })
+      }
+
+      if (artistId) {
+        await updateArtistProfile(artistId, profile)
+      } else {
+        await createArtistProfile(userId, profile)
+      }
 
       onSuccess?.()
     } catch (error) {
@@ -123,7 +150,9 @@ export default function ArtistProfileForm({ userId, onSuccess }: ArtistProfileFo
   return (
     <div className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white shadow-sm">
       <div className="border-b border-slate-200 px-6 py-5">
-        <h2 className="text-2xl font-bold text-slate-900">Completa tu perfil de artista</h2>
+        <h2 className="text-2xl font-bold text-slate-900">
+          {artistId ? 'Editar perfil de artista' : 'Completa tu perfil de artista'}
+        </h2>
         <p className="mt-1 text-sm text-slate-600">Esta información será visible para tus clientes</p>
       </div>
 
@@ -262,8 +291,30 @@ export default function ArtistProfileForm({ userId, onSuccess }: ArtistProfileFo
             disabled={isLoading}
             className="w-full rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {isLoading ? 'Guardando perfil...' : 'Guardar perfil'}
+            {isLoading ? 'Guardando perfil...' : artistId ? 'Actualizar perfil' : 'Guardar perfil'}
           </button>
+          {artistId && (
+            <button
+              type="button"
+              disabled={isLoading}
+              onClick={async () => {
+                if (!window.confirm('¿Quieres desactivar tu perfil de artista?')) return
+                setServerError(null)
+                setIsLoading(true)
+                try {
+                  await deleteArtistProfile(artistId)
+                  onSuccess?.()
+                } catch (error) {
+                  setServerError(error instanceof Error ? error.message : 'No se pudo eliminar el perfil.')
+                } finally {
+                  setIsLoading(false)
+                }
+              }}
+              className="w-full rounded-md border border-rose-200 px-4 py-2.5 text-sm font-medium text-rose-700 transition hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              Desactivar perfil
+            </button>
+          )}
         </form>
       </div>
     </div>

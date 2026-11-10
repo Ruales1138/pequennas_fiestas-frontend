@@ -1,11 +1,15 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { useAuth } from '@/context/AuthContext'
 import BookingDetailModal from '@/features/booking/BookingDetailModal'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import { getArtistBookings, updateBookingStatus } from '@/features/booking/bookingService'
 import type { BookingRecord, BookingStatus } from '@/features/booking/types'
+import { getArtists } from './artistService'
+import type { ArtistDetail } from './types'
+import ArtistProfileForm from '@/features/auth/ArtistProfileForm'
 
 const STATUS_STYLES: Record<string, string> = {
   pendiente: 'bg-amber-100 text-amber-700',
@@ -42,6 +46,8 @@ export default function DashboardArtist() {
   const [actionError, setActionError] = useState<string | null>(null)
   const [updatingId, setUpdatingId] = useState<string | number | null>(null)
   const [selectedBooking, setSelectedBooking] = useState<BookingRecord | null>(null)
+  const [artistProfile, setArtistProfile] = useState<ArtistDetail | null>(null)
+  const [profileLoading, setProfileLoading] = useState(true)
 
   useEffect(() => {
     getArtistBookings()
@@ -49,6 +55,18 @@ export default function DashboardArtist() {
       .catch(() => setError('No se pudieron cargar las reservas'))
       .finally(() => setIsLoading(false))
   }, [])
+
+  useEffect(() => {
+    if (!user?.id) return
+
+    getArtists()
+      .then((artists) => {
+        const ownedProfile = artists.find((artist) => artist.userId === user.id)
+        setArtistProfile(ownedProfile ? { ...ownedProfile, baseRate: ownedProfile.baseRate } : null)
+      })
+      .catch(() => setArtistProfile(null))
+      .finally(() => setProfileLoading(false))
+  }, [user?.id])
 
   const updateStatus = async (id: string | number, status: BookingStatus) => {
     if (status === 'rechazada' && !window.confirm('¿Quieres rechazar esta reserva?')) {
@@ -100,6 +118,38 @@ export default function DashboardArtist() {
             <p className="mt-2 text-4xl font-extrabold text-[#2e3145]">${ingresos.toLocaleString('es-CO')}</p>
           </div>
         </div>
+
+        <section className="mb-8 rounded-2xl border bg-white p-6 shadow-sm">
+          <div className="mb-5">
+            <h2 className="text-xl font-bold text-[#2e3145]">Mi perfil de artista</h2>
+            <p className="mt-1 text-sm text-slate-500">
+              Mantén actualizada la información que ven tus clientes.
+            </p>
+          </div>
+          {profileLoading && <LoadingSpinner message="Cargando perfil…" fullPage={false} />}
+          {!profileLoading && artistProfile && (
+            <ArtistProfileForm
+              userId={user?.id ?? ''}
+              artistId={artistProfile.id}
+              initialProfile={artistProfile}
+              onSuccess={() => {
+                setArtistProfile(null)
+                window.location.reload()
+              }}
+            />
+          )}
+          {!profileLoading && !artistProfile && (
+            <div className="rounded-xl border border-dashed border-slate-300 p-5">
+              <p className="text-sm text-slate-600">Todavía no tienes un perfil publicado.</p>
+              <Link
+                href="/onboarding/artista"
+                className="mt-3 inline-block rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500"
+              >
+                Crear perfil
+              </Link>
+            </div>
+          )}
+        </section>
 
         <div className="overflow-hidden rounded-2xl border bg-white shadow-sm">
           {actionError && (
