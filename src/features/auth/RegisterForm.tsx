@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from 'react-router-dom'
 import { signUpSchema } from './validation'
 import { authClient } from '@/lib/authClient'
+import type { AuthResponse } from '@/lib/authClient'
 import { useAuth } from '@/context/AuthContext'
 
 interface RegisterFormValues {
@@ -38,7 +39,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
     setIsLoading(true)
 
     try {
-      const result = (await authClient.signUp(data)) as any
+      const result: AuthResponse = await authClient.signUp(data)
       setUser(result.user)
       sessionStorage.setItem('pending_user', JSON.stringify(result.user))
 

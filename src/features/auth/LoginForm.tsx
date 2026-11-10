@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from 'react-router-dom'
 import { signInSchema } from './validation'
 import { authClient } from '@/lib/authClient'
+import type { AuthResponse } from '@/lib/authClient'
 import { useAuth } from '@/context/AuthContext'
 
 interface LoginFormValues {
@@ -34,7 +35,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
     setIsLoading(true)
 
     try {
-      const result = (await authClient.signIn(data)) as any
+      const result: AuthResponse = await authClient.signIn(data)
       setUser(result.user)
       form.reset()
       navigate('/')
