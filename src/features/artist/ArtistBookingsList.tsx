@@ -27,6 +27,7 @@ export default function ArtistBookingsList() {
   const [bookings, setBookings] = useState<ArtistBooking[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [actionError, setActionError] = useState<string | null>(null)
   const [selectedBooking, setSelectedBooking] = useState<ArtistBooking | null>(null)
   const [isUpdating, setIsUpdating] = useState(false)
 
@@ -38,6 +39,11 @@ export default function ArtistBookingsList() {
   }, [])
 
   const handleStatusChange = async (id: string | number, status: BookingStatus) => {
+    if (status === 'rechazada' && !window.confirm('¿Quieres rechazar esta reserva?')) {
+      return
+    }
+
+    setActionError(null)
     setIsUpdating(true)
     try {
       const { data } = await apiRequest<{ data: { status: BookingStatus } }>(`/api/bookings/${id}/status`, {
@@ -52,8 +58,8 @@ export default function ArtistBookingsList() {
       setSelectedBooking((prev) =>
         prev && prev.id === id ? { ...prev, status: data.status } : prev,
       )
-    } catch {
-      alert('Error al actualizar la reserva')
+    } catch (requestError) {
+      setActionError(requestError instanceof Error ? requestError.message : 'Error al actualizar la reserva')
     } finally {
       setIsUpdating(false)
     }
@@ -73,6 +79,11 @@ export default function ArtistBookingsList() {
 
   return (
     <>
+      {actionError && (
+        <p role="alert" className="mb-3 rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-700">
+          {actionError}
+        </p>
+      )}
       <div className="space-y-3">
         {bookings.map((booking) => (
           <div
@@ -121,4 +132,3 @@ export default function ArtistBookingsList() {
     </>
   )
 }
-

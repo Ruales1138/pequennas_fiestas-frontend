@@ -49,6 +49,7 @@ export default function DashboardArtist() {
   const [bookings, setBookings] = useState<BookingRecord[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [actionError, setActionError] = useState<string | null>(null)
   const [updatingId, setUpdatingId] = useState<string | number | null>(null)
   const [selectedBooking, setSelectedBooking] = useState<BookingRecord | null>(null)
 
@@ -60,6 +61,11 @@ export default function DashboardArtist() {
   }, [])
 
   const updateStatus = async (id: string | number, status: BookingStatus) => {
+    if (status === 'rechazada' && !window.confirm('¿Quieres rechazar esta reserva?')) {
+      return
+    }
+
+    setActionError(null)
     setUpdatingId(id)
     try {
       const { data } = await apiRequest<{ data: { status: BookingStatus } }>(`/api/bookings/${id}/status`, {
@@ -69,8 +75,8 @@ export default function DashboardArtist() {
 
       setBookings((prev) => prev.map((booking) => (booking.id === id ? { ...booking, status: data.status } : booking)))
       setSelectedBooking((prev) => (prev && prev.id === id ? { ...prev, status: data.status } : prev))
-    } catch {
-      alert('Error al actualizar la reserva')
+    } catch (requestError) {
+      setActionError(requestError instanceof Error ? requestError.message : 'Error al actualizar la reserva')
     } finally {
       setUpdatingId(null)
     }
@@ -109,6 +115,11 @@ export default function DashboardArtist() {
         </div>
 
         <div className="overflow-hidden rounded-2xl border bg-white shadow-sm">
+          {actionError && (
+            <p role="alert" className="border-b border-rose-200 bg-rose-50 px-6 py-3 text-sm text-rose-700">
+              {actionError}
+            </p>
+          )}
           {isLoading && (
             <div className="p-8">
               <LoadingSpinner message="Cargando reservas…" fullPage={false} />
@@ -217,4 +228,3 @@ export default function DashboardArtist() {
     </main>
   )
 }
-
