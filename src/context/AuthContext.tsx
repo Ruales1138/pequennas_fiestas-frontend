@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, type Dispatch, type ReactNode, type SetStateAction } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { authClient } from '@/lib/authClient'
+import { authService } from '@/features/auth/authService'
 import type { AuthSession, AuthUser } from '@/types/auth'
 
 interface AuthContextValue {
@@ -20,7 +20,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let isActive = true
 
-    authClient.getSession().then((session) => {
+    authService.getSession().then((session) => {
       if (!isActive) return
 
       const nextSession = session as AuthSession | null
@@ -42,7 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [navigate])
 
   const signOut = async () => {
-    await authClient.signOut()
+    await authService.signOut()
     setUser(null)
   }
 

@@ -3,8 +3,8 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from 'react-router-dom'
 import { signInSchema } from './validation'
-import { authClient } from '@/lib/authClient'
-import type { AuthResponse } from '@/lib/authClient'
+import { authService } from './authService'
+import type { AuthResponse } from './types'
 import { useAuth } from '@/context/AuthContext'
 
 interface LoginFormValues {
@@ -35,7 +35,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
     setIsLoading(true)
 
     try {
-      const result: AuthResponse = await authClient.signIn(data)
+      const result: AuthResponse = await authService.signIn(data)
       setUser(result.user)
       form.reset()
       navigate('/')

@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { artistProfileSchema } from './validation'
-import { authClient } from '../../lib/authClient'
+import { authService } from './authService'
 import { apiRequest } from '@/lib/apiClient'
 
 const CATEGORIES = [
@@ -96,10 +96,10 @@ export default function ArtistProfileForm({ userId, onSuccess }: ArtistProfileFo
     try {
       if (imageFile) {
         const imageUrl = await uploadImageLocal(imageFile)
-        await authClient.updateImageUser(imageUrl)
+        await authService.updateImageUser(imageUrl)
       }
 
-      await authClient.updateArtistProfile({
+      await authService.updateArtistProfile({
         userId,
         bio: data.bio,
         contactPhone: data.contactPhone,
