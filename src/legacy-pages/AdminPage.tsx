@@ -1,18 +1,7 @@
 import { useEffect, useState } from 'react'
-import { apiRequest } from '@/lib/apiClient'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
-
-type AdminResource = {
-  id: string
-  name?: string
-  title?: string
-  email?: string
-  role?: string
-}
-
-type AdminResponse = {
-  data?: AdminResource[]
-}
+import { getAdminResources } from '@/features/admin/adminService'
+import type { AdminResource, AdminResources } from '@/features/admin/types'
 
 type ResourceSummaryProps = {
   title: string
@@ -48,7 +37,7 @@ function ResourceSummary({ title, items, label }: ResourceSummaryProps) {
 }
 
 export default function AdminPage() {
-  const [resources, setResources] = useState<{ users: AdminResource[]; artists: AdminResource[]; bookings: AdminResource[] }>({
+  const [resources, setResources] = useState<AdminResources>({
     users: [],
     artists: [],
     bookings: [],
@@ -61,18 +50,8 @@ export default function AdminPage() {
 
     async function loadAdminResources() {
       try {
-        const [usersPayload, artistsPayload, bookingsPayload] = await Promise.all([
-          apiRequest<AdminResponse>('/api/admin/users'),
-          apiRequest<AdminResponse>('/api/admin/artists'),
-          apiRequest<AdminResponse>('/api/admin/bookings'),
-        ])
-
         if (active) {
-          setResources({
-            users: usersPayload?.data ?? [],
-            artists: artistsPayload?.data ?? [],
-            bookings: bookingsPayload?.data ?? [],
-          })
+          setResources(await getAdminResources())
         }
       } catch (requestError) {
         if (active) {
