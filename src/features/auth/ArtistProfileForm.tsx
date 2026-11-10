@@ -1,6 +1,7 @@
-import { useRef, useState, type ChangeEvent } from 'react'
+import { useEffect, useRef, useState, type ChangeEvent } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 import { artistProfileSchema } from './validation'
 import { authClient } from '../../lib/authClient'
 import { apiRequest } from '@/lib/apiClient'
@@ -19,14 +20,20 @@ interface ArtistProfileFormProps {
   onSuccess?: () => void
 }
 
+type ArtistProfileFormValues = z.infer<typeof artistProfileSchema>
+type ArtistProfileFormInput = z.input<typeof artistProfileSchema>
+
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024
+
 export default function ArtistProfileForm({ userId, onSuccess }: ArtistProfileFormProps) {
   const [serverError, setServerError] = useState<string | null>(null)
+  const [imageError, setImageError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [imageFile, setImageFile] = useState<File | null>(null)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
 
-  const form = useForm<any>({
+  const form = useForm<ArtistProfileFormInput, unknown, ArtistProfileFormValues>({
     resolver: zodResolver(artistProfileSchema),
     defaultValues: {
       bio: '',
@@ -36,14 +43,36 @@ export default function ArtistProfileForm({ userId, onSuccess }: ArtistProfileFo
       city: '',
       coverageArea: '',
       category: undefined,
-      image: '',
     },
   })
+
+  useEffect(() => {
+    return () => {
+      if (imagePreview) URL.revokeObjectURL(imagePreview)
+    }
+  }, [imagePreview])
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (!file) return
 
+    if (!file.type.startsWith('image/')) {
+      setImageFile(null)
+      setImagePreview(null)
+      setImageError('Selecciona un archivo de imagen válido.')
+      event.target.value = ''
+      return
+    }
+
+    if (file.size > MAX_IMAGE_SIZE) {
+      setImageFile(null)
+      setImagePreview(null)
+      setImageError('La imagen no puede superar los 5 MB.')
+      event.target.value = ''
+      return
+    }
+
+    setImageError(null)
     setImageFile(file)
     setImagePreview(URL.createObjectURL(file))
   }
@@ -60,7 +89,7 @@ export default function ArtistProfileForm({ userId, onSuccess }: ArtistProfileFo
     return payload.fileUrl
   }
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: ArtistProfileFormValues) => {
     setServerError(null)
     setIsLoading(true)
 
@@ -122,6 +151,7 @@ export default function ArtistProfileForm({ userId, onSuccess }: ArtistProfileFo
               className="hidden"
               onChange={handleImageChange}
             />
+            {imageError && <p className="text-center text-xs text-rose-600">{imageError}</p>}
           </div>
 
           <div className="space-y-2">
