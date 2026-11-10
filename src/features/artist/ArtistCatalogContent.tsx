@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState } from 'react'
 import ArtistCard from '@/features/artist/ArtistCard'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'

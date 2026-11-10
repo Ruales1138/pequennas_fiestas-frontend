@@ -1,4 +1,6 @@
-import { Navigate } from 'react-router-dom'
+'use client'
+
+import { useRouter } from 'next/navigation'
 import { useAuth } from '@/context/AuthContext'
 import { Card, CardContent, CardHeader } from '@/components/ui'
 import DashboardArtist from '@/features/artist/DashboardArtist'
@@ -6,6 +8,7 @@ import LoadingSpinner from '@/components/ui/LoadingSpinner'
 
 export function DashboardPage() {
   const { user, isLoading } = useAuth()
+  const router = useRouter()
 
   if (isLoading) {
     return (
@@ -17,7 +20,8 @@ export function DashboardPage() {
 
   // Only active artista sessions can access this route.
   if (!user || user.role !== 'artista') {
-    return <Navigate to="/401" replace />
+    router.replace('/401')
+    return null
   }
 
   return <DashboardArtist />

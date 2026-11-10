@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom'
+'use client'
+
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import heroImage from '@/assets/hero-image.webp'
 
@@ -14,7 +16,7 @@ export default function HeroSection() {
 
       <div className="flex flex-col items-center gap-4 sm:flex-row">
         <Button asChild className="group relative h-auto overflow-hidden rounded-xl bg-primary px-10 py-5 text-on-primary font-bold shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-primary/20">
-          <Link to="/catalog" className="relative z-10 flex items-center gap-2 whitespace-nowrap text-primary-foreground">
+          <Link href="/catalog" className="relative z-10 flex items-center gap-2 whitespace-nowrap text-primary-foreground">
             <div className="absolute inset-0 bg-linear-to-br from-primary to-primary-dim opacity-0 transition-opacity group-hover:opacity-100" />
             Explorar Artistas
             <span className="material-symbols-outlined text-xl">arrow_forward</span>
@@ -63,4 +65,3 @@ export default function HeroSection() {
     </section>
   )
 }
-

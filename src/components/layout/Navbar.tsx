@@ -1,17 +1,20 @@
+'use client'
+
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { Link, useNavigate } from 'react-router-dom'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useAuth } from '@/context/AuthContext'
 
 export default function Navbar() {
   const { user, isLoading, signOut } = useAuth()
-  const navigate = useNavigate()
+  const router = useRouter()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const handleSignOut = async () => {
     await signOut()
     setIsMenuOpen(false)
-    navigate('/')
+    router.push('/')
   }
 
   const closeMenu = () => setIsMenuOpen(false)
@@ -20,25 +23,25 @@ export default function Navbar() {
     <nav className="fixed top-0 z-50 w-full bg-white/80 shadow-sm backdrop-blur-md dark:bg-slate-950/80 dark:shadow-none">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6">
         <div className="flex items-center gap-8">
-          <Link to="/" onClick={closeMenu} className="text-xl font-bold tracking-tighter text-slate-900 dark:text-slate-50">
+          <Link href="/" onClick={closeMenu} className="text-xl font-bold tracking-tighter text-slate-900 dark:text-slate-50">
             GigaShow
           </Link>
 
           <div className="hidden items-center gap-x-6 md:flex">
             {user?.role === 'admin' ? (
-              <Link to="/admin" className="font-sans font-semibold tracking-tight text-indigo-600 transition-colors duration-200 antialiased dark:text-indigo-400">
+              <Link href="/admin" className="font-sans font-semibold tracking-tight text-indigo-600 transition-colors duration-200 antialiased dark:text-indigo-400">
                 Administración
               </Link>
             ) : user?.role === 'artista' ? (
-              <Link to="/dashboard" className="font-sans font-semibold tracking-tight text-indigo-600 transition-colors duration-200 antialiased dark:text-indigo-400">
+              <Link href="/dashboard" className="font-sans font-semibold tracking-tight text-indigo-600 transition-colors duration-200 antialiased dark:text-indigo-400">
                 Dashboard
               </Link>
             ) : (
-              <Link to="/catalog" className="font-sans font-semibold tracking-tight text-indigo-600 transition-colors duration-200 antialiased dark:text-indigo-400">
+              <Link href="/catalog" className="font-sans font-semibold tracking-tight text-indigo-600 transition-colors duration-200 antialiased dark:text-indigo-400">
                 Artistas
               </Link>
             )}
-            <Link to="/about" className="font-sans tracking-tight text-slate-600 transition-colors duration-200 hover:text-indigo-600 antialiased dark:text-slate-400">
+            <Link href="/about" className="font-sans tracking-tight text-slate-600 transition-colors duration-200 hover:text-indigo-600 antialiased dark:text-slate-400">
               Sobre nosotros
             </Link>
           </div>
@@ -63,7 +66,7 @@ export default function Navbar() {
                 )}
               </div>
               <Link
-                to={user.role === 'admin' ? '/admin' : user.role === 'artista' ? '/dashboard' : '/'}
+                href={user.role === 'admin' ? '/admin' : user.role === 'artista' ? '/dashboard' : '/'}
                 className="text-sm font-medium text-slate-700 hover:text-indigo-600 dark:text-slate-300"
               >
                 {user.name || 'Mi panel'}
@@ -75,10 +78,10 @@ export default function Navbar() {
           ) : (
             <div className="flex items-center gap-4">
               <Button asChild variant="ghost" className="px-3 py-2 text-sm">
-                <Link to="/login">Iniciar sesión</Link>
+                <Link href="/login">Iniciar sesión</Link>
               </Button>
               <Button asChild className="px-3 py-2 text-sm">
-                <Link to="/register">Registrarse</Link>
+                <Link href="/register">Registrarse</Link>
               </Button>
             </div>
           )}
@@ -110,19 +113,19 @@ export default function Navbar() {
         <div className="border-t border-slate-100 bg-white px-4 py-6 shadow-lg md:hidden dark:border-slate-800 dark:bg-slate-950">
           <div className="flex flex-col gap-4">
             {user?.role === 'admin' ? (
-              <Link to="/admin" onClick={closeMenu} className="text-lg font-semibold text-indigo-600">
+              <Link href="/admin" onClick={closeMenu} className="text-lg font-semibold text-indigo-600">
                 Administración
               </Link>
             ) : user?.role === 'artista' ? (
-              <Link to="/dashboard" onClick={closeMenu} className="text-lg font-semibold text-indigo-600">
+              <Link href="/dashboard" onClick={closeMenu} className="text-lg font-semibold text-indigo-600">
                 Dashboard
               </Link>
             ) : (
-              <Link to="/catalog" onClick={closeMenu} className="text-lg font-semibold text-indigo-600">
+              <Link href="/catalog" onClick={closeMenu} className="text-lg font-semibold text-indigo-600">
                 Artistas
               </Link>
             )}
-            <Link to="/about" onClick={closeMenu} className="text-lg font-medium text-slate-600">
+            <Link href="/about" onClick={closeMenu} className="text-lg font-medium text-slate-600">
               Sobre nosotros
             </Link>
 
@@ -157,10 +160,10 @@ export default function Navbar() {
               </div>
             ) : (
               <div className="flex flex-col gap-3">
-                <Link to="/login" onClick={closeMenu} className="rounded-md border border-slate-200 px-3 py-2 text-center text-sm font-medium text-slate-700">
+                <Link href="/login" onClick={closeMenu} className="rounded-md border border-slate-200 px-3 py-2 text-center text-sm font-medium text-slate-700">
                   Iniciar sesión
                 </Link>
-                <Link to="/register" onClick={closeMenu} className="rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-medium text-white">
+                <Link href="/register" onClick={closeMenu} className="rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-medium text-white">
                   Registrarse
                 </Link>
               </div>

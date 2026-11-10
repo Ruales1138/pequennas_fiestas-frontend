@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 
 interface ErrorTemplateProps {
   code: string
@@ -28,7 +28,7 @@ export default function ErrorTemplate({ code, title, description, children }: Er
         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
           {children ?? (
             <Link
-              to="/"
+              href="/"
               className="inline-flex h-12 items-center justify-center rounded-xl bg-indigo-600 px-8 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-indigo-700"
             >
               Volver al inicio

@@ -1,3 +1,5 @@
+'use client'
+
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 import { useAdminResources } from '@/features/admin/useAdminResources'
 import type { AdminResource } from '@/features/admin/types'

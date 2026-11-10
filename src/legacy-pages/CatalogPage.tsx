@@ -1,3 +1,5 @@
+'use client'
+
 import ArtistFilters from '@/features/artist/ArtistFilters'
 import ArtistCatalogContent from '@/features/artist/ArtistCatalogContent'
 import { useArtistCatalog } from '@/features/artist/useArtistCatalog'

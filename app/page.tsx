@@ -1,5 +1,6 @@
-import LegacyRoute from '@/legacy/LegacyRoute'
+import AppShell from '@/app/AppShell'
+import HomePage from '@/legacy-pages/HomePage'
 
 export default function HomeRoute() {
-  return <LegacyRoute />
+  return <AppShell><HomePage /></AppShell>
 }

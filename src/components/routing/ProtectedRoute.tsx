@@ -1,5 +1,7 @@
+'use client'
+
 import { type ReactNode } from 'react'
-import { Navigate, useLocation } from 'react-router-dom'
+import { usePathname, useRouter } from 'next/navigation'
 import { useAuth } from '@/context/AuthContext'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 
@@ -10,7 +12,8 @@ interface ProtectedRouteProps {
 
 export default function ProtectedRoute({ children, roles }: ProtectedRouteProps) {
   const { user, isLoading } = useAuth()
-  const location = useLocation()
+  const pathname = usePathname()
+  const router = useRouter()
 
   if (isLoading) {
     return (
@@ -21,11 +24,13 @@ export default function ProtectedRoute({ children, roles }: ProtectedRouteProps)
   }
 
   if (!user) {
-    return <Navigate to="/login" replace state={{ from: location.pathname }} />
+    router.replace(`/login?from=${encodeURIComponent(pathname)}`)
+    return null
   }
 
   if (roles && !roles.includes(user.role ?? '')) {
-    return <Navigate to="/403" replace />
+    router.replace('/403')
+    return null
   }
 
   return children

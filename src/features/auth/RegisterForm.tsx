@@ -1,7 +1,9 @@
+'use client'
+
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 import { signUpSchema } from './validation'
 import { authService } from './authService'
 import type { AuthResponse } from './types'
@@ -19,7 +21,7 @@ interface RegisterFormProps {
 }
 
 export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
-  const navigate = useNavigate()
+  const router = useRouter()
   const { setUser } = useAuth()
   const [serverError, setServerError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -44,9 +46,9 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
       sessionStorage.setItem('pending_user', JSON.stringify(result.user))
 
       if (data.role === 'artista') {
-        navigate('/onboarding/artista')
+        router.push('/onboarding/artista')
       } else {
-        navigate('/')
+        router.push('/')
       }
 
       form.reset()

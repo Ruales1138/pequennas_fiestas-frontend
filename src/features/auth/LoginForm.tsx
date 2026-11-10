@@ -1,7 +1,9 @@
+'use client'
+
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 import { signInSchema } from './validation'
 import { authService } from './authService'
 import type { AuthResponse } from './types'
@@ -17,7 +19,7 @@ interface LoginFormProps {
 }
 
 export const LoginForm = ({ onSuccess }: LoginFormProps) => {
-  const navigate = useNavigate()
+  const router = useRouter()
   const { setUser } = useAuth()
   const [serverError, setServerError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -38,7 +40,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
       const result: AuthResponse = await authService.signIn(data)
       setUser(result.user)
       form.reset()
-      navigate('/')
+      router.push('/')
       onSuccess?.(result)
     } catch (error) {
       setServerError(error instanceof Error ? error.message : 'Error al iniciar sesión')

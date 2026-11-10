@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState } from 'react'
 import { getArtistById } from './artistService'
 import type { ArtistDetail, RatingMeta } from './types'

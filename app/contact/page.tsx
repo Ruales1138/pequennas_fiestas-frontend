@@ -1,5 +1,6 @@
-import LegacyRoute from '@/legacy/LegacyRoute'
+import AppShell from '@/app/AppShell'
+import ContactPage from '@/legacy-pages/ContactPage'
 
 export default function ContactRoute() {
-  return <LegacyRoute />
+  return <AppShell><ContactPage /></AppShell>
 }

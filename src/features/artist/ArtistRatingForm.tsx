@@ -1,5 +1,7 @@
+'use client'
+
 import { useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 import { useAuth } from '@/context/AuthContext'
 import ArtistRatingStars from './ArtistRatingStars'
 import { submitArtistRating } from './artistService'
@@ -15,7 +17,7 @@ type ArtistRatingFormProps = {
 
 export default function ArtistRatingForm({ artistId, artistName, onSubmitted }: ArtistRatingFormProps) {
   const { user } = useAuth()
-  const navigate = useNavigate()
+  const router = useRouter()
   const [rating, setRating] = useState(5)
   const [comment, setComment] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -80,14 +82,14 @@ export default function ArtistRatingForm({ artistId, artistName, onSubmitted }: 
         <div className="mt-4 flex flex-wrap gap-3">
           <button
             type="button"
-            onClick={() => navigate('/login')}
+            onClick={() => router.push('/login')}
             className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
           >
             Iniciar sesión
           </button>
           <button
             type="button"
-            onClick={() => navigate('/register')}
+            onClick={() => router.push('/register')}
             className="rounded-lg border border-zinc-200 px-4 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-50"
           >
             Registrarse

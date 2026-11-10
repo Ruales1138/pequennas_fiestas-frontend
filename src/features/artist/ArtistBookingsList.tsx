@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState } from 'react'
 import BookingDetailModal from '@/features/booking/BookingDetailModal'
 import { getArtistBookings, updateBookingStatus } from '@/features/booking/bookingService'

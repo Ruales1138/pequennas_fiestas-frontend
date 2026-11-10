@@ -1,4 +1,6 @@
-import { Navigate, useNavigate } from 'react-router-dom'
+'use client'
+
+import { useRouter } from 'next/navigation'
 import ArtistProfileForm from '../features/auth/ArtistProfileForm'
 
 type PendingUser = {
@@ -6,12 +8,13 @@ type PendingUser = {
 }
 
 export function OnboardingPage() {
-  const navigate = useNavigate()
+  const router = useRouter()
   const rawPendingUser = sessionStorage.getItem('pending_user') ?? '{}'
   const user: PendingUser = JSON.parse(rawPendingUser) as PendingUser
 
   if (!user?.id) {
-    return <Navigate to="/register" replace />
+    router.replace('/register')
+    return null
   }
 
   return (
@@ -20,7 +23,7 @@ export function OnboardingPage() {
         userId={user.id}
         onSuccess={() => {
           sessionStorage.removeItem('pending_user')
-          navigate('/catalog')
+          router.push('/catalog')
         }}
       />
     </div>

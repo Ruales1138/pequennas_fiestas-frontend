@@ -1,3 +1,5 @@
+'use client'
+
 import type { BookingRecord, BookingStatus } from './types'
 
 type BookingDetailModalProps = {

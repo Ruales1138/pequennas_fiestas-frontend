@@ -1,5 +1,6 @@
-import LegacyRoute from '@/legacy/LegacyRoute'
+import AppShell from '@/app/AppShell'
+import CatalogPage from '@/legacy-pages/CatalogPage'
 
 export default function CatalogRoute() {
-  return <LegacyRoute />
+  return <AppShell><CatalogPage /></AppShell>
 }

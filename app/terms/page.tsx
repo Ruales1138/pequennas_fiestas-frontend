@@ -1,5 +1,6 @@
-import LegacyRoute from '@/legacy/LegacyRoute'
+import AppShell from '@/app/AppShell'
+import TermsPage from '@/legacy-pages/TermsPage'
 
 export default function TermsRoute() {
-  return <LegacyRoute />
+  return <AppShell><TermsPage /></AppShell>
 }

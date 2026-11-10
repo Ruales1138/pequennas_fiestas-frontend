@@ -1,6 +1,8 @@
+﻿'use client'
+
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 import { useAuth } from '@/context/AuthContext'
 import { createBooking } from './bookingService'
 import type { BookingArtist } from './types'
@@ -18,7 +20,7 @@ export default function BookingForm({ artist }: { artist: BookingArtist }) {
   const [calculatedHours, setCalculatedHours] = useState('')
   const [calculatedPrice, setCalculatedPrice] = useState('')
   const { user } = useAuth()
-  const navigate = useNavigate()
+  const router = useRouter()
 
   const baseRate = Number(artist?.hourlyRate || 0)
   const isUserAuthorized = Boolean(user && user.role === 'cliente')
@@ -232,7 +234,7 @@ export default function BookingForm({ artist }: { artist: BookingArtist }) {
         <div className="mt-6 flex justify-end gap-3">
           <button
             type="button"
-            onClick={() => navigate('/catalog')}
+            onClick={() =>             router.push('/catalog')}
             className="rounded-lg border border-zinc-200 px-4 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-50"
           >
             Volver
@@ -250,7 +252,7 @@ export default function BookingForm({ artist }: { artist: BookingArtist }) {
       {!isUserAuthorized && (
         <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
           Debes iniciar sesión como cliente para reservar a {artist.name ?? 'este artista'}.
-          <button type="button" onClick={() => navigate('/login')} className="ml-2 font-semibold underline">
+          <button type="button" onClick={() =>           router.push('/login')} className="ml-2 font-semibold underline">
             Iniciar sesión
           </button>
         </div>

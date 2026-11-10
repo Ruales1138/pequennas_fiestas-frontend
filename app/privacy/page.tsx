@@ -1,5 +1,6 @@
-import LegacyRoute from '@/legacy/LegacyRoute'
+import AppShell from '@/app/AppShell'
+import PrivacyPage from '@/legacy-pages/PrivacyPage'
 
 export default function PrivacyRoute() {
-  return <LegacyRoute />
+  return <AppShell><PrivacyPage /></AppShell>
 }

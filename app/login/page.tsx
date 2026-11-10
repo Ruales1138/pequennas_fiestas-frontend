@@ -1,5 +1,6 @@
-import LegacyRoute from '@/legacy/LegacyRoute'
+import AppShell from '@/app/AppShell'
+import { LoginPage } from '@/legacy-pages/LoginPage'
 
 export default function LoginRoute() {
-  return <LegacyRoute />
+  return <AppShell><LoginPage /></AppShell>
 }

@@ -1,5 +1,7 @@
+'use client'
+
 import { createContext, useContext, useEffect, useState, type Dispatch, type ReactNode, type SetStateAction } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 import { authService } from '@/features/auth/authService'
 import type { AuthSession, AuthUser } from '@/types/auth'
 
@@ -13,7 +15,7 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | null>(null)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const navigate = useNavigate()
+  const router = useRouter()
   const [user, setUser] = useState<AuthUser | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
@@ -30,7 +32,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const handleUnauthorized = () => {
       setUser(null)
-      navigate('/login', { replace: true })
+      router.replace('/login')
     }
 
     window.addEventListener('gigashow:unauthorized', handleUnauthorized)
@@ -39,7 +41,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isActive = false
       window.removeEventListener('gigashow:unauthorized', handleUnauthorized)
     }
-  }, [navigate])
+  }, [router])
 
   const signOut = async () => {
     await authService.signOut()

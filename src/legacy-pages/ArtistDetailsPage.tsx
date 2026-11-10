@@ -1,4 +1,6 @@
-import { useParams } from 'react-router-dom'
+'use client'
+
+import { useParams } from 'next/navigation'
 import ArtistDetailsContent from '@/features/artist/ArtistDetailsContent'
 import ArtistDetailsLoading from '@/features/artist/ArtistDetailsLoading'
 import ArtistDetailsError from '@/features/artist/ArtistDetailsError'
@@ -7,7 +9,8 @@ import { useAuth } from '@/context/AuthContext'
 import { useArtistDetails } from '@/features/artist/useArtistDetails'
 
 function ArtistDetailsPage() {
-  const { id } = useParams()
+  const params = useParams<{ id: string }>()
+  const id = params.id
   const { user } = useAuth()
   const { artist, error, loading, updateRating } = useArtistDetails(id)
 

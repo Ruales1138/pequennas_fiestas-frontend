@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom'
+'use client'
+
+import Link from 'next/link'
 import ArtistBookingsList from './ArtistBookingsList'
 import ArtistRatingStars from './ArtistRatingStars'
 import ArtistRatingForm from './ArtistRatingForm'
@@ -32,7 +34,7 @@ export default function ArtistDetailsContent({
 
   return (
     <>
-      <Link className="mb-6 inline-block text-sm font-semibold text-indigo-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500" to="/catalog">
+      <Link className="mb-6 inline-block text-sm font-semibold text-indigo-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500" href="/catalog">
         ← Volver al catálogo
       </Link>
 

@@ -1,5 +1,6 @@
-import LegacyRoute from '@/legacy/LegacyRoute'
+import AppShell from '@/app/AppShell'
+import ServerErrorPage from '@/legacy-pages/errors/ServerErrorPage'
 
 export default function ServerErrorRoute() {
-  return <LegacyRoute />
+  return <AppShell><ServerErrorPage /></AppShell>
 }

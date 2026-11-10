@@ -1,5 +1,6 @@
-import LegacyRoute from '@/legacy/LegacyRoute'
+import AppShell from '@/app/AppShell'
+import ForbiddenPage from '@/legacy-pages/errors/ForbiddenPage'
 
 export default function ForbiddenRoute() {
-  return <LegacyRoute />
+  return <AppShell><ForbiddenPage /></AppShell>
 }

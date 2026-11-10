@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom'
+'use client'
+
+import Link from 'next/link'
 import ArtistRatingStars from './ArtistRatingStars'
 
 type ArtistCardProps = {
@@ -21,7 +23,7 @@ export default function ArtistCard({ artist }: ArtistCardProps) {
 
   return (
     <Link
-      to={`/detail/${artist.id}`}
+      href={`/detail/${artist.id}`}
       className="group overflow-hidden rounded-xl bg-white shadow-sm transition-transform hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
     >
       <img
