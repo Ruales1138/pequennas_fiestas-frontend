@@ -7,6 +7,6 @@ const LegacyApplication = dynamic(() => import('@/legacy/LegacyApplication'), {
   loading: () => <main className="min-h-screen bg-[#fbf8ff]" aria-busy="true" />,
 })
 
-export default function LegacyApplicationRoute() {
+export default function LegacyRoute() {
   return <LegacyApplication />
 }
