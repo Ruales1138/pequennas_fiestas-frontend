@@ -2,14 +2,10 @@ import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
 import ArtistRatingStars from './ArtistRatingStars'
-import { apiRequest } from '@/lib/apiClient'
+import { submitArtistRating } from './artistService'
+import type { RatingMeta } from './types'
 
 type RatingMessage = { type: 'success' | 'error' | ''; text: string }
-
-type RatingMeta = {
-  rating?: number
-  ratingCount?: number
-}
 
 type ArtistRatingFormProps = {
   artistId: string | number
@@ -57,16 +53,7 @@ export default function ArtistRatingForm({ artistId, artistName, onSubmitted }: 
     setMessage({ type: '', text: '' })
 
     try {
-      const payload = await apiRequest<{ meta?: RatingMeta | null; data?: unknown }>(
-        `/api/artists/${artistId}/ratings`,
-        {
-          method: 'POST',
-          body: JSON.stringify({
-            rating,
-            comment,
-          }),
-        },
-      )
+      const payload = await submitArtistRating(artistId, rating, comment)
 
       setMessage({ type: 'success', text: 'Tu calificación se guardó correctamente.' })
       setComment('')

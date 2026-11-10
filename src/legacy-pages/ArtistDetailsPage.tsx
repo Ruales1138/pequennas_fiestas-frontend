@@ -5,25 +5,8 @@ import ArtistDetailsLoading from '@/features/artist/ArtistDetailsLoading'
 import ArtistDetailsError from '@/features/artist/ArtistDetailsError'
 import BookingForm from '@/features/booking/BookingForm'
 import { useAuth } from '@/context/AuthContext'
-import { apiRequest } from '@/lib/apiClient'
-
-type ArtistDetail = {
-  id: string
-  userId?: string
-  name?: string
-  rating?: number
-  ratingCount?: number
-  [key: string]: unknown
-}
-
-type ArtistResponse = {
-  data?: ArtistDetail | null
-}
-
-type RatingMeta = {
-  rating?: number
-  ratingCount?: number
-}
+import { getArtistById } from '@/features/artist/artistService'
+import type { ArtistDetail, RatingMeta } from '@/features/artist/types'
 
 function ArtistDetailsPage() {
   const { id } = useParams()
@@ -60,6 +43,7 @@ function ArtistDetailsPage() {
       return
     }
 
+    const artistId = id
     const controller = new AbortController()
 
     async function fetchArtist() {
@@ -67,11 +51,7 @@ function ArtistDetailsPage() {
         setLoading(true)
         setError('')
 
-        const payload = (await apiRequest<ArtistResponse>(`/api/artists/${id}`, {
-          signal: controller.signal,
-        })) as ArtistResponse
-
-        setArtist(payload.data ?? null)
+        setArtist(await getArtistById(artistId, controller.signal))
       } catch (fetchError) {
         const errorObject = fetchError as Error & { name?: string }
         if (errorObject.name !== 'AbortError') {

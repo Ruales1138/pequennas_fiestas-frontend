@@ -9,8 +9,24 @@ export type Artist = {
   hourlyRate?: number | string
 }
 
+export type ArtistDetail = Artist & {
+  userId?: string
+  contactSocial?: string
+  contactPhone?: string
+  bio?: string
+}
+
+export type RatingMeta = {
+  rating?: number
+  ratingCount?: number
+}
+
 export type ArtistListResponse = {
   data?: Artist[]
+}
+
+export type ArtistDetailResponse = {
+  data?: ArtistDetail | null
 }
 
 export type ArtistFiltersState = {
