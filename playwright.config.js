@@ -10,7 +10,7 @@ export default defineConfig({
     trace: "on-first-retry",
   },
   webServer: {
-    command: "npm run dev -- --host 127.0.0.1 --port 8081",
+    command: "npm run dev -- --hostname 127.0.0.1 --port 8081",
     url: "http://127.0.0.1:8081",
     reuseExistingServer: true,
     timeout: 120_000,

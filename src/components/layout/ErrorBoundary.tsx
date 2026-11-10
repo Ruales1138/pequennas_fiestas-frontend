@@ -1,5 +1,5 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react'
-import ServerErrorPage from '@/pages/errors/ServerErrorPage'
+import ServerErrorPage from '@/legacy-pages/errors/ServerErrorPage'
 
 interface ErrorBoundaryProps {
   children: ReactNode
