@@ -1,8 +1,12 @@
+interface LoadingSpinnerProps {
+  message?: string
+  fullPage?: boolean
+}
 
 export default function LoadingSpinner({
   message = 'Cargando…',
   fullPage = true,
-}) {
+}: LoadingSpinnerProps) {
   return (
     <div
       className={`flex flex-col items-center justify-center gap-6 ${
