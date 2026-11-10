@@ -92,7 +92,7 @@ export default function DashboardArtist() {
     <main className="min-h-screen bg-[#f7f8fc] px-4 pb-16 pt-28">
       <div className="mx-auto max-w-5xl">
         <div className="mb-8">
-          <span className="text-xs font-bold uppercase tracking-widest text-indigo-600">Management Console</span>
+          <span className="text-xs font-bold uppercase tracking-widest text-indigo-600">Panel de gestión</span>
           <h1 className="mt-1 text-4xl font-extrabold tracking-tight text-[#2e3145]">Mis Reservas</h1>
           <p className="mt-2 text-slate-500">
             Gestiona tus solicitudes de contratación y revisa el estado de tus eventos confirmados.
@@ -131,7 +131,7 @@ export default function DashboardArtist() {
           )}
           {!isLoading && bookings.length > 0 && (
             <div className="w-full overflow-x-auto">
-              <table className="w-full text-sm whitespace-nowrap">
+              <table className="w-full min-w-[760px] text-sm whitespace-nowrap">
                 <thead>
                   <tr className="border-b bg-slate-50 text-xs font-semibold uppercase tracking-widest text-slate-500">
                     <th className="px-6 py-4 text-left">Cliente</th>

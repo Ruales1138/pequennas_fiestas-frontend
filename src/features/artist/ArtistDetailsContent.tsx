@@ -32,8 +32,8 @@ export default function ArtistDetailsContent({
 
   return (
     <>
-      <Link className="mb-6 inline-block text-sm font-semibold text-indigo-600" to="/catalog">
-        ← Volver al catalogo
+      <Link className="mb-6 inline-block text-sm font-semibold text-indigo-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500" to="/catalog">
+        ← Volver al catálogo
       </Link>
 
       <div className="grid gap-8 lg:grid-cols-12">
@@ -49,7 +49,7 @@ export default function ArtistDetailsContent({
           <p className="mt-1 text-sm text-zinc-500">{artist.category}</p>
 
           <div className="mt-4 rounded-xl bg-amber-50 px-4 py-3">
-            <p className="text-xs font-semibold uppercase tracking-widest text-amber-700">Calificacion promedio</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-amber-700">Calificación promedio</p>
             <div className="mt-2 flex flex-wrap items-center gap-3">
               <ArtistRatingStars rating={artist.rating} reviewCount={reviewCount} size="lg" />
             </div>
@@ -57,7 +57,7 @@ export default function ArtistDetailsContent({
 
           <div className="mt-6 space-y-4 text-sm">
             <div className="flex items-center justify-between border-b border-zinc-100 pb-3">
-              <span className="text-zinc-500">Calificacion</span>
+              <span className="text-zinc-500">Calificación</span>
               <span className="font-semibold text-zinc-900">{Number(artist.rating || 0).toFixed(1)}</span>
             </div>
             <div className="flex items-center justify-between border-b border-zinc-100 pb-3">
@@ -73,7 +73,7 @@ export default function ArtistDetailsContent({
               <span className="font-semibold text-zinc-900">{artist.contactSocial || 'No definido'}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-zinc-500">Telefono</span>
+              <span className="text-zinc-500">Teléfono</span>
               <span className="font-semibold text-zinc-900">{artist.contactPhone || 'No definido'}</span>
             </div>
           </div>

@@ -88,7 +88,7 @@ export default function ArtistBookingsList() {
         {bookings.map((booking) => (
           <div
             key={booking.id}
-            className="flex items-center justify-between rounded-xl border border-zinc-100 bg-white p-4 shadow-sm transition-colors hover:border-indigo-200"
+            className="flex flex-col gap-4 rounded-xl border border-zinc-100 bg-white p-4 shadow-sm transition-colors hover:border-indigo-200 sm:flex-row sm:items-center sm:justify-between"
           >
             <div className="flex items-center gap-4">
               <div>
@@ -104,7 +104,7 @@ export default function ArtistBookingsList() {
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
               <span
                 className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide ${STATUS_STYLES[booking.status] ?? 'bg-slate-100 text-slate-600'}`}
               >
