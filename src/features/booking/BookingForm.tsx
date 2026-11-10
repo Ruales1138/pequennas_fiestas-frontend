@@ -1,15 +1,9 @@
-﻿import { useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
-import { apiRequest } from '@/lib/apiClient'
-
-type BookingArtist = {
-  id?: string | number
-  userId?: string | number
-  name?: string
-  hourlyRate?: string | number
-}
+import { createBooking } from './bookingService'
+import type { BookingArtist } from './types'
 
 type BookingFormValues = {
   eventDate: string
@@ -99,17 +93,14 @@ export default function BookingForm({ artist }: { artist: BookingArtist }) {
       const jobHoursValue = Number(calculatedHours)
       const agreedPriceValue = calculatedPrice ? Number(calculatedPrice) : jobHoursValue * baseRate
 
-      await apiRequest('/api/bookings', {
-        method: 'POST',
-        body: JSON.stringify({
-          artistId: artist.userId ?? artist.id,
-          clientId: user?.id,
-          eventDate: new Date(data.eventDate).toISOString(),
-          eventLocation: data.eventLocation,
-          description: data.description,
-          jobHours: jobHoursValue,
-          agreedPrice: agreedPriceValue,
-        }),
+      await createBooking({
+        artistId: artist.userId ?? artist.id,
+        clientId: user?.id,
+        eventDate: new Date(data.eventDate).toISOString(),
+        eventLocation: data.eventLocation,
+        description: data.description,
+        jobHours: jobHoursValue,
+        agreedPrice: agreedPriceValue,
       })
 
       setSubmitMessage({ type: 'success', text: 'Reserva creada exitosamente.' })

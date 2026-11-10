@@ -2,20 +2,8 @@ import { useEffect, useState } from 'react'
 import { useAuth } from '@/context/AuthContext'
 import BookingDetailModal from '@/features/booking/BookingDetailModal'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
-import { apiRequest } from '@/lib/apiClient'
-
-type BookingStatus = 'pendiente' | 'aceptada' | 'rechazada'
-
-type BookingRecord = {
-  id: string | number
-  clientName: string
-  clientEmail?: string
-  clientImage?: string
-  eventDate: string
-  eventLocation: string
-  agreedPrice?: number | string
-  status: BookingStatus | string
-}
+import { getArtistBookings, updateBookingStatus } from '@/features/booking/bookingService'
+import type { BookingRecord, BookingStatus } from '@/features/booking/types'
 
 const STATUS_STYLES: Record<string, string> = {
   pendiente: 'bg-amber-100 text-amber-700',
@@ -54,8 +42,8 @@ export default function DashboardArtist() {
   const [selectedBooking, setSelectedBooking] = useState<BookingRecord | null>(null)
 
   useEffect(() => {
-    apiRequest<{ data?: BookingRecord[] }>('/api/bookings/artist')
-      .then((json) => setBookings(json.data ?? []))
+    getArtistBookings()
+      .then((nextBookings) => setBookings(nextBookings))
       .catch(() => setError('No se pudieron cargar las reservas'))
       .finally(() => setIsLoading(false))
   }, [])
@@ -68,13 +56,10 @@ export default function DashboardArtist() {
     setActionError(null)
     setUpdatingId(id)
     try {
-      const { data } = await apiRequest<{ data: { status: BookingStatus } }>(`/api/bookings/${id}/status`, {
-        method: 'PATCH',
-        body: JSON.stringify({ status }),
-      })
+      const nextStatus = await updateBookingStatus(id, status)
 
-      setBookings((prev) => prev.map((booking) => (booking.id === id ? { ...booking, status: data.status } : booking)))
-      setSelectedBooking((prev) => (prev && prev.id === id ? { ...prev, status: data.status } : prev))
+      setBookings((prev) => prev.map((booking) => (booking.id === id ? { ...booking, status: nextStatus } : booking)))
+      setSelectedBooking((prev) => (prev && prev.id === id ? { ...prev, status: nextStatus } : prev))
     } catch (requestError) {
       setActionError(requestError instanceof Error ? requestError.message : 'Error al actualizar la reserva')
     } finally {

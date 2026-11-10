@@ -1,20 +1,7 @@
-type BookingStatus = 'pendiente' | 'aceptada' | 'rechazada'
-
-type BookingDetail = {
-  id: string | number
-  clientImage?: string
-  clientName: string
-  clientEmail?: string
-  status: BookingStatus | string
-  eventDate: string
-  eventLocation: string
-  jobHours?: number | string
-  agreedPrice?: number | string
-  description?: string
-}
+import type { BookingRecord, BookingStatus } from './types'
 
 type BookingDetailModalProps = {
-  booking: BookingDetail | null
+  booking: BookingRecord | null
   onClose: () => void
   onStatusChange: (id: string | number, status: BookingStatus) => void
   isUpdating: boolean
