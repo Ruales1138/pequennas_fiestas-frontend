@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
-import { getAdminResources } from '@/features/admin/adminService'
-import type { AdminResource, AdminResources } from '@/features/admin/types'
+import { useAdminResources } from '@/features/admin/useAdminResources'
+import type { AdminResource } from '@/features/admin/types'
 
 type ResourceSummaryProps = {
   title: string
@@ -37,38 +36,7 @@ function ResourceSummary({ title, items, label }: ResourceSummaryProps) {
 }
 
 export default function AdminPage() {
-  const [resources, setResources] = useState<AdminResources>({
-    users: [],
-    artists: [],
-    bookings: [],
-  })
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState('')
-
-  useEffect(() => {
-    let active = true
-
-    async function loadAdminResources() {
-      try {
-        if (active) {
-          setResources(await getAdminResources())
-        }
-      } catch (requestError) {
-        if (active) {
-          const message = requestError instanceof Error ? requestError.message : 'No se pudo cargar la información administrativa.'
-          setError(message)
-        }
-      } finally {
-        if (active) setIsLoading(false)
-      }
-    }
-
-    void loadAdminResources()
-
-    return () => {
-      active = false
-    }
-  }, [])
+  const { error, isLoading, resources } = useAdminResources()
 
   return (
     <main className="min-h-screen bg-[#fbf8ff] px-6 pb-16 pt-28 text-[#2e3145]">
