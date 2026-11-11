@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import ArtistProfileForm from '../features/auth/ArtistProfileForm'
 
@@ -9,20 +10,35 @@ type PendingUser = {
 
 export function OnboardingPage() {
   const router = useRouter()
-  const rawPendingUser = sessionStorage.getItem('pending_user') ?? '{}'
-  const user: PendingUser = JSON.parse(rawPendingUser) as PendingUser
+  const [userId, setUserId] = useState<string | null>(null)
+  const [checked, setChecked] = useState(false)
 
-  if (!user?.id) {
-    router.replace('/register')
+  useEffect(() => {
+    try {
+      const rawPendingUser = window.sessionStorage.getItem('pending_user') ?? '{}'
+      const user: PendingUser = JSON.parse(rawPendingUser) as PendingUser
+      if (user?.id) {
+        setUserId(user.id)
+      } else {
+        router.replace('/register')
+      }
+    } catch {
+      router.replace('/register')
+    } finally {
+      setChecked(true)
+    }
+  }, [router])
+
+  if (!checked || !userId) {
     return null
   }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <ArtistProfileForm
-        userId={user.id}
+        userId={userId}
         onSuccess={() => {
-          sessionStorage.removeItem('pending_user')
+          window.sessionStorage.removeItem('pending_user')
           router.push('/catalog')
         }}
       />
