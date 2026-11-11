@@ -29,7 +29,9 @@ function decodeJwtPayload(token: string): Record<string, unknown> | null {
     if (parts.length !== 3) return null
     const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/')
     const padded = base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), '=')
-    const json = atob(padded)
+    const binary = atob(padded)
+    const bytes = Uint8Array.from(binary, (c) => c.charCodeAt(0))
+    const json = new TextDecoder().decode(bytes)
     return JSON.parse(json) as Record<string, unknown>
   } catch {
     return null
