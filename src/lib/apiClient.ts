@@ -1,17 +1,29 @@
 import type { ApiError, ApiErrorPayload } from '@/types/api'
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+const viteEnv =
+  typeof import.meta !== 'undefined'
+    ? (import.meta as unknown as { env?: Record<string, string | undefined> }).env
+    : undefined
+
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  viteEnv?.VITE_API_URL ||
+  'http://localhost:3000'
 const ACCESS_TOKEN_KEY = 'gigashow_access_token'
+const AUTH_USER_KEY = 'gigashow_auth_user'
 
 export function getAccessToken(): string | null {
+  if (typeof window === 'undefined') return null
   return window.localStorage.getItem(ACCESS_TOKEN_KEY)
 }
 
 export function setAccessToken(token?: string | null): void {
+  if (typeof window === 'undefined') return
   if (token) {
     window.localStorage.setItem(ACCESS_TOKEN_KEY, token)
   } else {
     window.localStorage.removeItem(ACCESS_TOKEN_KEY)
+    window.localStorage.removeItem(AUTH_USER_KEY)
   }
 }
 
