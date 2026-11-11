@@ -86,7 +86,11 @@ La suite en `tests/critical-flows.spec.js` valida:
 
 ## 6. Despliegue en Producción (Vercel)
 
+- **URL de Producción (Frontend):** [https://pequennasfiestas-frontend.vercel.app/](https://pequennasfiestas-frontend.vercel.app/)
+- **Backend Conectado (Render):** [https://pequennas-fiestas-backend.onrender.com](https://pequennas-fiestas-backend.onrender.com)
+
+### Pasos de Configuración en Vercel
 1. Importar el repositorio `Ruales1138/pequennas_fiestas-frontend` en [Vercel](https://vercel.com).
 2. Preset de Framework: **Next.js** (`npm run build`).
-3. Añadir la variable de entorno `NEXT_PUBLIC_API_URL` con la URL del backend en Render (`https://<tu-backend>.onrender.com`).
+3. Añadir la variable de entorno `NEXT_PUBLIC_API_URL` con la URL del backend en Render (`https://pequennas-fiestas-backend.onrender.com`).
 4. Desplegar y verificar navegación directa a `/`, `/catalog`, `/login`, `/register` y `/admin`.
