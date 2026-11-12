@@ -3,7 +3,7 @@ import FeatureGrid from '../features/landing/FeatureGrid'
 
 export default function HomePage() {
   return (
-    <main className="hero-gradient min-h-screen">
+    <main className="min-h-screen bg-[#fbf8ff]">
       <HeroSection />
       <FeatureGrid />
     </main>

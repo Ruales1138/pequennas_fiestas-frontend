@@ -2,65 +2,81 @@
 
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import heroImage from '@/assets/hero-image.webp'
+
+const stats = [
+  { value: '50+', label: 'Artistas Verificados' },
+  { value: '200+', label: 'Eventos Realizados' },
+  { value: '4.9★', label: 'Calificación Promedio' },
+  { value: '100%', label: 'Satisfacción' },
+]
 
 export default function HeroSection() {
   return (
-    <section className="mx-auto flex max-w-7xl flex-col items-center px-6 pb-16 pt-32 text-center">
-      <h1 className="headline-sm mb-8 max-w-5xl text-on-surface text-5xl font-semibold leading-[1.1] tracking-tighter md:text-7xl">
-        Talento <span className="text-primary italic">Gigante</span> en Formato Compacto para tu Próximo Evento.
-      </h1>
-      <p className="body-md mb-12 max-w-3xl text-lg leading-relaxed text-on-surface-variant md:text-xl">
-        La primera plataforma profesional de contratación de artistas de talla baja. Entretenimiento único, profesional y de alto impacto para eventos corporativos, fiestas y producciones.
-      </p>
+    <section className="relative overflow-hidden">
+      {/* Gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-800" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.15),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(139,92,246,0.3),transparent_50%)]" />
 
-      <div className="flex flex-col items-center gap-4 sm:flex-row">
-        <Button asChild className="group relative h-auto overflow-hidden rounded-xl bg-primary px-10 py-5 text-on-primary font-bold shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-primary/20">
-          <Link href="/catalog" className="relative z-10 flex items-center gap-2 whitespace-nowrap text-primary-foreground">
-            <div className="absolute inset-0 bg-linear-to-br from-primary to-primary-dim opacity-0 transition-opacity group-hover:opacity-100" />
-            Explorar Artistas
-            <span className="material-symbols-outlined text-xl">arrow_forward</span>
-          </Link>
-        </Button>
+      {/* Floating decorative circles */}
+      <div className="absolute -left-20 -top-20 h-72 w-72 rounded-full bg-white/5 blur-3xl" />
+      <div className="absolute -bottom-32 -right-20 h-96 w-96 rounded-full bg-purple-400/10 blur-3xl" />
 
-        <Button variant="secondary" className="h-auto rounded-xl px-10 py-5 font-semibold text-on-surface transition-colors">
-          Saber más
-        </Button>
+      <div className="relative mx-auto flex max-w-7xl flex-col items-center px-6 pb-24 pt-36 text-center md:pb-32 md:pt-44">
+        {/* Badge */}
+        <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-medium text-white backdrop-blur-sm">
+          <span className="inline-block h-2 w-2 rounded-full bg-green-400 animate-pulse" />
+          Plataforma #1 en entretenimiento profesional
+        </div>
+
+        {/* Headline */}
+        <h1 className="mb-6 max-w-4xl text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl md:text-7xl">
+          Haz de tu Evento algo{' '}
+          <span className="relative">
+            <span className="bg-gradient-to-r from-amber-300 via-yellow-300 to-orange-300 bg-clip-text text-transparent">
+              Inolvidable
+            </span>
+          </span>
+        </h1>
+
+        {/* Subtitle */}
+        <p className="mb-10 max-w-2xl text-lg leading-relaxed text-indigo-100 md:text-xl">
+          Conectamos tu evento con los mejores artistas profesionales.
+          Entretenimiento único, seguro y de alto impacto para fiestas, eventos corporativos y producciones.
+        </p>
+
+        {/* CTA buttons */}
+        <div className="flex flex-col items-center gap-4 sm:flex-row">
+          <Button asChild className="h-auto rounded-xl bg-white px-8 py-4 text-base font-bold text-indigo-700 shadow-lg shadow-indigo-900/30 transition-all duration-300 hover:-translate-y-0.5 hover:bg-indigo-50 hover:shadow-xl">
+            <Link href="/catalog" className="flex items-center gap-2">
+              Explorar Artistas
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
+            </Link>
+          </Button>
+
+          <Button asChild variant="ghost" className="h-auto rounded-xl border border-white/25 px-8 py-4 text-base font-semibold text-white backdrop-blur-sm transition-all hover:bg-white/10">
+            <Link href="/about">Saber más</Link>
+          </Button>
+        </div>
+
+        {/* Stats */}
+        <div className="mt-20 grid w-full max-w-3xl grid-cols-2 gap-6 md:grid-cols-4">
+          {stats.map((stat) => (
+            <div key={stat.label} className="flex flex-col items-center rounded-xl border border-white/10 bg-white/5 px-4 py-5 backdrop-blur-sm">
+              <span className="text-2xl font-extrabold tracking-tight text-white md:text-3xl">{stat.value}</span>
+              <span className="mt-1 text-xs font-medium uppercase tracking-wider text-indigo-200">{stat.label}</span>
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="mt-24 grid w-full grid-cols-2 gap-8 border-t border-outline-variant/10 py-12 md:grid-cols-4">
-        <div className="flex flex-col">
-          <span className="text-3xl font-bold tracking-tighter text-on-surface">100%</span>
-          <span className="label-md mt-1 text-[10px] uppercase tracking-widest text-on-surface-variant">Artistas Profesionales</span>
-        </div>
-        <div className="flex flex-col">
-          <span className="text-3xl font-bold tracking-tighter text-on-surface">Diversión</span>
-          <span className="label-md mt-1 text-[10px] uppercase tracking-widest text-on-surface-variant">Garantizada</span>
-        </div>
-        <div className="flex flex-col">
-          <span className="text-3xl font-bold tracking-tighter text-on-surface">Ético</span>
-          <span className="label-md mt-1 text-[10px] uppercase tracking-widest text-on-surface-variant">Trato Profesional</span>
-        </div>
-        <div className="flex flex-col">
-          <span className="text-3xl font-bold tracking-tighter text-on-surface">Segura</span>
-          <span className="label-md mt-1 text-[10px] uppercase tracking-widest text-on-surface-variant">Contratación</span>
-        </div>
-      </div>
-
-      <div className="relative mt-16 aspect-video w-full max-w-6xl overflow-hidden rounded-2xl shadow-2xl">
-        <img alt="Professional stage performance with dynamic lighting and talented entertainers" className="h-full w-full object-cover" src={heroImage} />
-        <div className="absolute bottom-4 left-4 flex items-center gap-4 rounded-xl border border-white/30 bg-white/20 p-4 shadow-2xl backdrop-blur-xl sm:bottom-8 sm:left-8 sm:p-6">
-          <div className="h-12 w-12 overflow-hidden rounded-full border-2 border-white/50">
-            <img
-              alt="Portrait of a professional performer"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3uUfoBo5rB2jWK8DICG1PLGWDTb4PNKqm3XGnfLlQm1DxbUkcAvJnZGoinj-UsOYhJXt5u5H5ofa34H92Zzr9NdVU37UAsrjc_lQrEskmaaMlnFoZyE2pYJZIaIeswaSl1igr3HIu3kVKg2m7yjh1i85FIquHhLxKu1tBk6aqvHOCI6SlmiGEGOXTzNkySPaE7vGHeXOEo0mttc5uX6sJJALxhHYtBK_ljUmq1-Wul_OBlxvDHGUFU8nUPPmf_aIp-heAtb0LHIY"
-            />
-          </div>
-          <div className="text-left">
-            <p className="text-sm font-bold text-white">Julian R.</p>
-            <p className="text-xs text-white/80">Animador Profesional • CDMX</p>
-          </div>
-        </div>
+      {/* Wave divider */}
+      <div className="absolute bottom-0 left-0 right-0">
+        <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+          <path d="M0 50C360 100 720 0 1080 50C1260 75 1380 62 1440 50V100H0V50Z" fill="#fbf8ff" />
+        </svg>
       </div>
     </section>
   )
