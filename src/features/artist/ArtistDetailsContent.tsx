@@ -25,6 +25,9 @@ type ArtistDetailsContentProps = {
   onRatingSubmitted: (meta: { rating?: number; ratingCount?: number } | null | undefined) => void
 }
 
+const FALLBACK_IMAGE =
+  'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80'
+
 export default function ArtistDetailsContent({
   artist,
   isOwner,
@@ -41,7 +44,7 @@ export default function ArtistDetailsContent({
       <div className="grid gap-8 lg:grid-cols-12">
         <div className="lg:col-span-7">
           <div className="overflow-hidden rounded-2xl bg-zinc-100 shadow-sm">
-            <img alt={artist.name ?? 'Artista'} className="aspect-4/3 w-full object-cover" src={artist.imageUrl} />
+            <img alt={artist.name ?? 'Artista'} className="aspect-4/3 w-full object-cover" src={artist.imageUrl || FALLBACK_IMAGE} />
           </div>
         </div>
 

@@ -9,6 +9,12 @@ export type Artist = {
   imageUrl?: string
   hourlyRate?: number | string
   baseRate?: number | string
+  user?: {
+    id?: string
+    name?: string
+    email?: string
+    image?: string | null
+  }
 }
 
 export type ArtistDetail = Artist & {

@@ -23,6 +23,7 @@ export async function getArtists(signal?: AbortSignal): Promise<Artist[]> {
   return Array.isArray(payload.data)
     ? payload.data.map((artist) => ({
         ...artist,
+        name: artist.name ?? artist.user?.name ?? 'Artista Profesional',
         hourlyRate: artist.hourlyRate ?? artist.baseRate,
       }))
     : []
@@ -31,7 +32,11 @@ export async function getArtists(signal?: AbortSignal): Promise<Artist[]> {
 export async function getArtistById(id: string, signal?: AbortSignal): Promise<ArtistDetail | null> {
   const payload = await apiRequest<ArtistDetailResponse>(`/api/artists/${id}`, { signal })
   return payload.data
-    ? { ...payload.data, hourlyRate: payload.data.hourlyRate ?? payload.data.baseRate }
+    ? {
+        ...payload.data,
+        name: payload.data.name ?? payload.data.user?.name ?? 'Artista Profesional',
+        hourlyRate: payload.data.hourlyRate ?? payload.data.baseRate,
+      }
     : null
 }
 
