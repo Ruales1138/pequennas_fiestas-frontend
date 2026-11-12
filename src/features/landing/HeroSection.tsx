@@ -1,82 +1,121 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-
-const stats = [
-  { value: '50+', label: 'Artistas Verificados' },
-  { value: '200+', label: 'Eventos Realizados' },
-  { value: '4.9★', label: 'Calificación Promedio' },
-  { value: '100%', label: 'Satisfacción' },
-]
+import { useRouter } from 'next/navigation'
 
 export default function HeroSection() {
+  const router = useRouter()
+  const [query, setQuery] = useState('')
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    router.push('/catalog')
+  }
+
   return (
-    <section className="relative overflow-hidden">
-      {/* Gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-800" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.15),transparent_50%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(139,92,246,0.3),transparent_50%)]" />
+    <section className="relative min-h-[88vh] w-full overflow-hidden bg-[#f4f1ff] pt-28 pb-16 flex items-center justify-center">
+      {/* Left soft organic mesh orb */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-28 top-1/4 h-[420px] w-[420px] -translate-y-1/4 rounded-full bg-gradient-to-tr from-[#a855f7]/45 via-[#6366f1]/30 to-[#fde68a]/35 blur-[85px]"
+      />
 
-      {/* Floating decorative circles */}
-      <div className="absolute -left-20 -top-20 h-72 w-72 rounded-full bg-white/5 blur-3xl" />
-      <div className="absolute -bottom-32 -right-20 h-96 w-96 rounded-full bg-purple-400/10 blur-3xl" />
+      {/* Top-right subtle sky/indigo glow */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute right-1/4 top-16 h-[320px] w-[320px] rounded-full bg-gradient-to-bl from-[#818cf8]/35 via-[#c4b5fd]/30 to-transparent blur-[75px]"
+      />
 
-      <div className="relative mx-auto flex max-w-7xl flex-col items-center px-6 pb-24 pt-36 text-center md:pb-32 md:pt-44">
-        {/* Badge */}
-        <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-medium text-white backdrop-blur-sm">
-          <span className="inline-block h-2 w-2 rounded-full bg-green-400 animate-pulse" />
-          Plataforma #1 en entretenimiento profesional
-        </div>
+      {/* Bottom-right vibrant mesh orb (matching reference layout with brand colors) */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -bottom-24 -right-16 h-[480px] w-[520px] rounded-full bg-gradient-to-tl from-[#4f46e5]/65 via-[#9333ea]/55 to-[#ec4899]/40 blur-[90px]"
+      />
 
-        {/* Headline */}
-        <h1 className="mb-6 max-w-4xl text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl md:text-7xl">
-          Haz de tu Evento algo{' '}
-          <span className="relative">
-            <span className="bg-gradient-to-r from-amber-300 via-yellow-300 to-orange-300 bg-clip-text text-transparent">
-              Inolvidable
-            </span>
-          </span>
+      {/* Geometric minimalist radial burst ornament (bottom-right, like reference image) */}
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 200 200"
+        className="pointer-events-none absolute bottom-10 right-10 hidden h-36 w-36 text-[#181824]/80 md:block lg:bottom-14 lg:right-20 lg:h-44 lg:w-44"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        {/* 8 minimal geometric chevrons arranged radially */}
+        <polyline points="88,18 100,62 112,18" />
+        <polyline points="88,182 100,138 112,182" />
+        <polyline points="18,88 62,100 18,112" />
+        <polyline points="182,88 138,100 182,112" />
+        <polyline points="34,50 72,74 50,34" />
+        <polyline points="166,50 128,74 150,34" />
+        <polyline points="34,150 72,126 50,166" />
+        <polyline points="166,150 128,126 150,166" />
+      </svg>
+
+      {/* Main centered editorial content */}
+      <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center px-6 text-center">
+        <h1 className="text-6xl font-extrabold tracking-tight text-[#12131a] sm:text-7xl md:text-[5.5rem] leading-none">
+          GigaShow.
         </h1>
 
-        {/* Subtitle */}
-        <p className="mb-10 max-w-2xl text-lg leading-relaxed text-indigo-100 md:text-xl">
-          Conectamos tu evento con los mejores artistas profesionales.
-          Entretenimiento único, seguro y de alto impacto para fiestas, eventos corporativos y producciones.
+        <p className="mt-5 text-xl font-semibold tracking-tight text-[#1e1b4b] sm:text-2xl">
+          Talento gigante en formato compacto.
         </p>
 
-        {/* CTA buttons */}
-        <div className="flex flex-col items-center gap-4 sm:flex-row">
-          <Button asChild className="h-auto rounded-xl bg-white px-8 py-4 text-base font-bold text-indigo-700 shadow-lg shadow-indigo-900/30 transition-all duration-300 hover:-translate-y-0.5 hover:bg-indigo-50 hover:shadow-xl">
-            <Link href="/catalog" className="flex items-center gap-2">
-              Explorar Artistas
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
-              </svg>
-            </Link>
-          </Button>
+        <p className="mt-4 max-w-xl text-xs leading-relaxed text-slate-600 sm:text-sm">
+          La primera plataforma profesional de contratación de artistas de talla baja y espectáculos en vivo.
+          Entretenimiento ético, directo y de alto impacto para eventos corporativos, fiestas y producciones.
+        </p>
 
-          <Button asChild variant="ghost" className="h-auto rounded-xl border border-white/25 px-8 py-4 text-base font-semibold text-white backdrop-blur-sm transition-all hover:bg-white/10">
-            <Link href="/about">Saber más</Link>
-          </Button>
+        {/* Pill Search Bar */}
+        <form
+          onSubmit={handleSearch}
+          className="mt-9 flex w-full max-w-md items-center rounded-full border border-[#12131a]/45 bg-white/40 px-5 py-2.5 backdrop-blur-md transition focus-within:border-indigo-600 focus-within:bg-white/70"
+        >
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Buscar comedia, DJ, magia, música..."
+            className="w-full bg-transparent text-sm text-[#12131a] placeholder:text-slate-500 focus:outline-none"
+          />
+          <button
+            type="submit"
+            aria-label="Buscar artistas"
+            className="ml-2 flex h-7 w-7 items-center justify-center text-[#12131a] transition hover:text-indigo-600"
+          >
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
+              <circle cx="11" cy="11" r="7" />
+              <path strokeLinecap="round" d="M20 20l-3.5-3.5" />
+            </svg>
+          </button>
+        </form>
+
+        {/* Dual Pill Buttons */}
+        <div className="mt-7 flex flex-wrap items-center justify-center gap-4">
+          <Link
+            href="/catalog"
+            className="rounded-full bg-[#5b21b6] px-8 py-3 text-xs font-bold uppercase tracking-[0.16em] text-white shadow-md shadow-purple-900/20 transition hover:bg-[#4c1d95]"
+          >
+            Explorar
+          </Link>
+          <Link
+            href="/about"
+            className="rounded-full border border-[#5b21b6]/50 bg-transparent px-8 py-3 text-xs font-medium tracking-[0.08em] text-[#4c1d95] transition hover:border-[#5b21b6] hover:bg-[#5b21b6]/5"
+          >
+            ver más
+          </Link>
         </div>
 
-        {/* Stats */}
-        <div className="mt-20 grid w-full max-w-3xl grid-cols-2 gap-6 md:grid-cols-4">
-          {stats.map((stat) => (
-            <div key={stat.label} className="flex flex-col items-center rounded-xl border border-white/10 bg-white/5 px-4 py-5 backdrop-blur-sm">
-              <span className="text-2xl font-extrabold tracking-tight text-white md:text-3xl">{stat.value}</span>
-              <span className="mt-1 text-xs font-medium uppercase tracking-wider text-indigo-200">{stat.label}</span>
-            </div>
-          ))}
+        {/* Minimal scroll mouse indicator */}
+        <div className="mt-14 flex flex-col items-center opacity-50">
+          <div className="flex h-8 w-5 items-start justify-center rounded-full border border-[#5b21b6] p-1">
+            <span className="h-1.5 w-1 rounded-full bg-[#5b21b6]" />
+          </div>
         </div>
-      </div>
-
-      {/* Wave divider */}
-      <div className="absolute bottom-0 left-0 right-0">
-        <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-          <path d="M0 50C360 100 720 0 1080 50C1260 75 1380 62 1440 50V100H0V50Z" fill="#fbf8ff" />
-        </svg>
       </div>
     </section>
   )

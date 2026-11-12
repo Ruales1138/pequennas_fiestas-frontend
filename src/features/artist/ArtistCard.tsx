@@ -30,6 +30,11 @@ export default function ArtistCard({ artist }: ArtistCardProps) {
         alt={artist.name ?? 'Artista'}
         className="aspect-square w-full object-cover transition-transform group-hover:scale-105"
         src={artist.imageUrl || FALLBACK_IMAGE}
+        onError={(e) => {
+          if (e.currentTarget.src !== FALLBACK_IMAGE) {
+            e.currentTarget.src = FALLBACK_IMAGE
+          }
+        }}
       />
       <div className="p-5">
         <h3 className="text-lg font-bold tracking-tight">{artist.name}</h3>
