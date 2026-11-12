@@ -55,6 +55,18 @@ export async function createArtistProfile(
   userId: string,
   profile: ArtistProfileInput,
 ): Promise<ArtistDetail> {
+  try {
+    const updatedPayload = await apiRequest<ArtistDetailResponse>(`/api/artists/${userId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(profile),
+    })
+    if (updatedPayload.data) {
+      return updatedPayload.data
+    }
+  } catch {
+    // Si aún no existía el perfil inicial para este userId, se crea mediante POST /api/artists
+  }
+
   const payload = await apiRequest<ArtistDetailResponse>('/api/artists', {
     method: 'POST',
     body: JSON.stringify({ userId, ...profile }),

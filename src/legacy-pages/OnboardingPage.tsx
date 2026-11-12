@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useAuth } from '@/context/AuthContext'
 import ArtistProfileForm from '../features/auth/ArtistProfileForm'
 
 type PendingUser = {
@@ -10,31 +11,38 @@ type PendingUser = {
 
 export function OnboardingPage() {
   const router = useRouter()
+  const { user: authUser, isLoading: authLoading } = useAuth()
   const [userId, setUserId] = useState<string | null>(null)
   const [checked, setChecked] = useState(false)
 
   useEffect(() => {
+    if (authLoading) return
     try {
       const rawPendingUser = window.sessionStorage.getItem('pending_user') ?? '{}'
-      const user: PendingUser = JSON.parse(rawPendingUser) as PendingUser
-      if (user?.id) {
-        setUserId(user.id)
+      const pending: PendingUser = JSON.parse(rawPendingUser) as PendingUser
+      const resolvedId = pending?.id || authUser?.id
+      if (resolvedId) {
+        setUserId(resolvedId)
       } else {
         router.replace('/register')
       }
     } catch {
-      router.replace('/register')
+      if (authUser?.id) {
+        setUserId(authUser.id)
+      } else {
+        router.replace('/register')
+      }
     } finally {
       setChecked(true)
     }
-  }, [router])
+  }, [authLoading, authUser?.id, router])
 
   if (!checked || !userId) {
     return null
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+    <div className="flex min-h-screen items-center justify-center bg-[#f4f1ff] px-4 pt-28 pb-16">
       <ArtistProfileForm
         userId={userId}
         onSuccess={() => {
