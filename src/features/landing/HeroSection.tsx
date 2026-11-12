@@ -37,7 +37,7 @@ export default function HeroSection() {
       <svg
         aria-hidden="true"
         viewBox="0 0 200 200"
-        className="pointer-events-none absolute bottom-10 right-10 hidden h-36 w-36 text-[#181824]/80 md:block lg:bottom-14 lg:right-20 lg:h-44 lg:w-44"
+        className="pointer-events-none absolute bottom-10 right-10 hidden h-36 w-36 text-[#181824]/80 dark:text-indigo-300/60 md:block lg:bottom-14 lg:right-20 lg:h-44 lg:w-44"
         fill="none"
         stroke="currentColor"
         strokeWidth="2.2"
@@ -73,19 +73,19 @@ export default function HeroSection() {
         {/* Pill Search Bar */}
         <form
           onSubmit={handleSearch}
-          className="mt-9 flex w-full max-w-md items-center rounded-full border border-[#12131a]/45 bg-white/40 px-5 py-2.5 backdrop-blur-md transition focus-within:border-indigo-600 focus-within:bg-white/70"
+          className="mt-9 flex w-full max-w-md items-center rounded-full border border-[#12131a]/45 bg-white/60 px-5 py-2.5 backdrop-blur-md transition focus-within:border-indigo-600 focus-within:bg-white/90 dark:border-indigo-400/50 dark:bg-[#17122b]/90 dark:focus-within:border-indigo-400 dark:focus-within:bg-[#1c1636]"
         >
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Buscar comedia, DJ, magia, música..."
-            className="w-full bg-transparent text-sm text-[#12131a] placeholder:text-slate-500 focus:outline-none"
+            className="hero-search-input w-full border-0 bg-transparent text-sm text-[#12131a] placeholder:text-slate-500 focus:outline-none dark:text-slate-100 dark:placeholder:text-slate-400"
           />
           <button
             type="submit"
             aria-label="Buscar artistas"
-            className="ml-2 flex h-7 w-7 items-center justify-center text-[#12131a] transition hover:text-indigo-600"
+            className="ml-2 flex h-7 w-7 items-center justify-center text-[#12131a] transition hover:text-indigo-600 dark:text-slate-200 dark:hover:text-indigo-300"
           >
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
               <circle cx="11" cy="11" r="7" />
