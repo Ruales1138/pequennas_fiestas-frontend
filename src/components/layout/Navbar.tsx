@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -10,6 +10,22 @@ export default function Navbar() {
   const { user, isLoading, signOut } = useAuth()
   const router = useRouter()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isDark, setIsDark] = useState(false)
+
+  useEffect(() => {
+    const savedTheme = window.localStorage.getItem('gigashow_theme')
+    const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches
+    const shouldBeDark = savedTheme ? savedTheme === 'dark' : Boolean(prefersDark)
+    setIsDark(shouldBeDark)
+    document.documentElement.classList.toggle('dark', shouldBeDark)
+  }, [])
+
+  const toggleTheme = () => {
+    const nextDark = !isDark
+    setIsDark(nextDark)
+    document.documentElement.classList.toggle('dark', nextDark)
+    window.localStorage.setItem('gigashow_theme', nextDark ? 'dark' : 'light')
+  }
 
   const handleSignOut = async () => {
     await signOut()
@@ -20,7 +36,7 @@ export default function Navbar() {
   const closeMenu = () => setIsMenuOpen(false)
 
   return (
-    <nav className="fixed top-0 z-50 w-full bg-white/80 shadow-sm backdrop-blur-md dark:bg-slate-950/80 dark:shadow-none">
+    <nav className="fixed top-0 z-50 w-full bg-white/80 shadow-sm backdrop-blur-md transition-colors duration-300 dark:bg-slate-950/85 dark:shadow-none">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6">
         <div className="flex items-center gap-8">
           <Link href="/" onClick={closeMenu} className="text-xl font-bold tracking-tighter text-slate-900 dark:text-slate-50">
@@ -42,7 +58,7 @@ export default function Navbar() {
                   Artistas
                 </Link>
                 {user && (
-                  <Link href="/dashboard" className="font-sans font-semibold tracking-tight text-[#5b21b6] transition-colors duration-200 hover:text-indigo-600 antialiased">
+                  <Link href="/dashboard" className="font-sans font-semibold tracking-tight text-[#5b21b6] transition-colors duration-200 hover:text-indigo-600 antialiased dark:text-indigo-300">
                     Mis reservas
                   </Link>
                 )}
@@ -54,7 +70,31 @@ export default function Navbar() {
           </div>
         </div>
 
-        <div className="hidden items-center md:flex">
+        <div className="hidden items-center gap-3 md:flex">
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label={isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+            title={isDark ? 'Modo claro' : 'Modo oscuro'}
+            className="flex h-9 items-center gap-1.5 rounded-full border border-slate-200/80 bg-slate-100/80 px-3 text-xs font-semibold text-slate-700 transition-all hover:border-indigo-300 hover:bg-indigo-50/70 hover:text-indigo-700 dark:border-slate-700 dark:bg-slate-800/80 dark:text-slate-200 dark:hover:border-indigo-500/60 dark:hover:bg-slate-800"
+          >
+            {isDark ? (
+              <>
+                <svg className="h-4 w-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                <span>Claro</span>
+              </>
+            ) : (
+              <>
+                <svg className="h-4 w-4 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+                <span>Oscuro</span>
+              </>
+            )}
+          </button>
+
           {isLoading ? (
             <div className="h-8 w-8 animate-pulse rounded-full bg-slate-200" />
           ) : user ? (
@@ -94,26 +134,45 @@ export default function Navbar() {
           )}
         </div>
 
-        <button
-          className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 md:hidden"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          type="button"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-            stroke="currentColor"
-            className="h-6 w-6"
+        <div className="flex items-center gap-2 md:hidden">
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label={isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+            className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
           >
-            {isMenuOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            {isDark ? (
+              <svg className="h-5 w-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
             ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              <svg className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              </svg>
             )}
-          </svg>
-        </button>
+          </button>
+
+          <button
+            className="flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            type="button"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              className="h-6 w-6"
+            >
+              {isMenuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+        </div>
       </div>
 
       {isMenuOpen && (
