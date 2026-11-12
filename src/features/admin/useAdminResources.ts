@@ -2,9 +2,10 @@ import { useCallback, useEffect, useState } from 'react'
 import {
   deleteAdminResource,
   getAdminResources,
+  updateAdminResource,
   updateAdminResourceStatus,
 } from './adminService'
-import type { AdminResources, AdminResourceType } from './types'
+import type { AdminResources, AdminResourceType, AdminUpdatePayload } from './types'
 
 const EMPTY_RESOURCES: AdminResources = {
   users: [],
@@ -72,6 +73,48 @@ export function useAdminResources() {
     }
   }
 
+  const updateResource = async (
+    resourceType: AdminResourceType,
+    id: string,
+    payload: AdminUpdatePayload,
+  ) => {
+    try {
+      setActionLoadingId(`${resourceType}:${id}`)
+      setError('')
+      const currentItem = resources[resourceType].find((item) => item.id === id)
+      await updateAdminResource(resourceType, id, payload, currentItem?.isActive ?? true)
+
+      setResources((prev) => ({
+        ...prev,
+        [resourceType]: prev[resourceType].map((item) => {
+          if (item.id !== id) return item
+          const next = { ...item, ...payload }
+          if (resourceType === 'bookings' && payload.status) {
+            next.role = payload.status
+          }
+          if (resourceType === 'ratings') {
+            if (payload.rating !== undefined) {
+              next.role = `${payload.rating} ★`
+            }
+            if (payload.comment !== undefined && payload.comment !== null) {
+              next.name = payload.comment
+            }
+          }
+          return next
+        }),
+      }))
+    } catch (mutationError) {
+      setError(
+        mutationError instanceof Error
+          ? mutationError.message
+          : 'No se pudo editar el registro.',
+      )
+      throw mutationError
+    } finally {
+      setActionLoadingId(null)
+    }
+  }
+
   const softDelete = async (resourceType: AdminResourceType, id: string) => {
     try {
       setActionLoadingId(`${resourceType}:${id}`)
@@ -79,21 +122,13 @@ export function useAdminResources() {
       await deleteAdminResource(resourceType, id)
       setResources((prev) => ({
         ...prev,
-        [resourceType]: prev[resourceType].map((item) =>
-          item.id === id
-            ? {
-                ...item,
-                isActive: false,
-                deletedAt: new Date().toISOString(),
-              }
-            : item,
-        ),
+        [resourceType]: prev[resourceType].filter((item) => item.id !== id),
       }))
     } catch (mutationError) {
       setError(
         mutationError instanceof Error
           ? mutationError.message
-          : 'No se pudo desactivar el registro.',
+          : 'No se pudo eliminar el registro.',
       )
     } finally {
       setActionLoadingId(null)
@@ -108,5 +143,6 @@ export function useAdminResources() {
     resources,
     softDelete,
     toggleStatus,
+    updateResource,
   }
 }

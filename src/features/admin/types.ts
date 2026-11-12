@@ -2,6 +2,7 @@ export type AdminResourceType = 'users' | 'artists' | 'bookings' | 'ratings'
 
 export type AdminResource = {
   id: string
+  userId?: string
   name?: string
   title?: string
   email?: string
@@ -9,6 +10,9 @@ export type AdminResource = {
   city?: string
   category?: string
   baseRate?: number
+  bio?: string | null
+  eventLocation?: string
+  description?: string | null
   agreedPrice?: number
   status?: string
   rating?: number
@@ -17,6 +21,26 @@ export type AdminResource = {
   deletedAt?: string | null
   createdAt?: string
 }
+
+export type AdminUpdatePayload = Partial<
+  Pick<
+    AdminResource,
+    | 'name'
+    | 'email'
+    | 'role'
+    | 'city'
+    | 'category'
+    | 'baseRate'
+    | 'bio'
+    | 'eventLocation'
+    | 'description'
+    | 'agreedPrice'
+    | 'status'
+    | 'rating'
+    | 'comment'
+    | 'isActive'
+  >
+>
 
 export type AdminResources = {
   users: AdminResource[]
