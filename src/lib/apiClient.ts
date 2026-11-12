@@ -27,6 +27,10 @@ export function setAccessToken(token?: string | null): void {
   }
 }
 
+export interface ApiRequestOptions extends RequestInit {
+  skipAuthRedirect?: boolean
+}
+
 function getErrorMessage(payload: ApiErrorPayload | null, fallback: string): string {
   if (typeof payload?.message === 'string') return payload.message
   if (typeof payload?.error === 'string') return payload.error
@@ -35,7 +39,7 @@ function getErrorMessage(payload: ApiErrorPayload | null, fallback: string): str
 
 export async function apiRequest<T = unknown>(
   path: string,
-  options: RequestInit = {},
+  options: ApiRequestOptions = {},
 ): Promise<T> {
   const headers = new Headers(options.headers)
   const token = getAccessToken()
@@ -62,7 +66,9 @@ export async function apiRequest<T = unknown>(
 
   if (response.status === 401) {
     setAccessToken(null)
-    window.dispatchEvent(new CustomEvent('gigashow:unauthorized'))
+    if (!options.skipAuthRedirect) {
+      window.dispatchEvent(new CustomEvent('gigashow:unauthorized'))
+    }
   }
 
   if (!response.ok) {

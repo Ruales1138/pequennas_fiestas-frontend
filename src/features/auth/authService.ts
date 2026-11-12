@@ -67,34 +67,38 @@ export const authService = {
 
   async getSession(): Promise<AuthSession | null> {
     const token = getAccessToken()
-    if (token) {
-      const decoded = decodeJwtPayload(token)
-      if (decoded) {
-        const exp = typeof decoded.exp === 'number' ? decoded.exp : null
-        if (exp && exp * 1000 <= Date.now()) {
-          setAccessToken(null)
-          return null
-        }
+    if (!token) {
+      return null
+    }
 
-        const storedUser = getStoredUser()
-        const user: AuthUser = {
-          id: String(decoded.id ?? storedUser?.id ?? ''),
-          email: String(decoded.email ?? storedUser?.email ?? ''),
-          role: String(decoded.role ?? storedUser?.role ?? 'cliente'),
-          name: (decoded.name as string | undefined) ?? storedUser?.name ?? null,
-          image: storedUser?.image ?? null,
-        }
-
-        if (user.id) {
-          return { user, token }
-        }
-      } else if (getStoredUser()?.id) {
-        return { user: getStoredUser(), token }
+    const decoded = decodeJwtPayload(token)
+    if (decoded) {
+      const exp = typeof decoded.exp === 'number' ? decoded.exp : null
+      if (exp && exp * 1000 <= Date.now()) {
+        setAccessToken(null)
+        return null
       }
+
+      const storedUser = getStoredUser()
+      const user: AuthUser = {
+        id: String(decoded.id ?? storedUser?.id ?? ''),
+        email: String(decoded.email ?? storedUser?.email ?? ''),
+        role: String(decoded.role ?? storedUser?.role ?? 'cliente'),
+        name: (decoded.name as string | undefined) ?? storedUser?.name ?? null,
+        image: storedUser?.image ?? null,
+      }
+
+      if (user.id) {
+        return { user, token }
+      }
+    } else if (getStoredUser()?.id) {
+      return { user: getStoredUser(), token }
     }
 
     try {
-      return await apiRequest<AuthSession>('/api/auth/get-session')
+      return await apiRequest<AuthSession>('/api/auth/get-session', {
+        skipAuthRedirect: true,
+      })
     } catch (error) {
       const apiError = error as ApiError
       if (apiError.status !== 401 && apiError.status !== 404) {

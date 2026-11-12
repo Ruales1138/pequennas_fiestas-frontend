@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { signInSchema } from './validation'
 import { authService } from './authService'
 import type { AuthResponse } from './types'
@@ -102,6 +103,13 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
             {isLoading ? 'Iniciando sesión...' : 'Iniciar sesión'}
           </button>
         </form>
+
+        <div className="mt-4 text-center text-sm text-slate-600">
+          ¿No tienes una cuenta?{' '}
+          <Link href="/register" className="font-semibold text-indigo-600 hover:text-indigo-500">
+            Regístrate
+          </Link>
+        </div>
       </div>
     </div>
   )

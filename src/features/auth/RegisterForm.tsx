@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { signUpSchema } from './validation'
 import { authService } from './authService'
 import type { AuthResponse } from './types'
@@ -142,6 +143,13 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
             {isLoading ? 'Registrando...' : 'Registrarse'}
           </button>
         </form>
+
+        <div className="mt-4 text-center text-sm text-slate-600">
+          ¿Ya tienes una cuenta?{' '}
+          <Link href="/login" className="font-semibold text-indigo-600 hover:text-indigo-500">
+            Inicia sesión
+          </Link>
+        </div>
       </div>
     </div>
   )

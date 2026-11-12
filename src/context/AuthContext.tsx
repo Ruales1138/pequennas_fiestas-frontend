@@ -32,7 +32,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const handleUnauthorized = () => {
       setUser(null)
-      router.replace('/login')
+      if (typeof window !== 'undefined') {
+        const publicRoutes = [
+          '/',
+          '/login',
+          '/register',
+          '/catalog',
+          '/about',
+          '/contact',
+          '/privacy',
+          '/terms',
+          '/detail',
+          '/401',
+          '/403',
+          '/500',
+        ]
+        const currentPath = window.location.pathname
+        const isPublic =
+          currentPath === '/' ||
+          publicRoutes.some(
+            (route) => route !== '/' && (currentPath === route || currentPath.startsWith(`${route}/`)),
+          )
+        if (!isPublic) {
+          router.replace(`/login?from=${encodeURIComponent(currentPath)}`)
+        }
+      }
     }
 
     window.addEventListener('gigashow:unauthorized', handleUnauthorized)
