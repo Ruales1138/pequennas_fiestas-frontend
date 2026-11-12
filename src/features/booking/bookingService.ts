@@ -37,7 +37,7 @@ export async function getClientBookings(clientId: string): Promise<ClientBooking
   return (payload.data ?? []).map((b) => ({
     id: b.id,
     artistId: b.artistId ?? b.artist?.id,
-    artistName: b.artist?.name ?? 'Artista GigaShow',
+    artistName: b.artist?.name ?? 'Artista Pequeñas Fiestas',
     artistEmail: b.artist?.email ?? '',
     artistImage: b.artist?.image ?? null,
     eventDate: b.eventDate,

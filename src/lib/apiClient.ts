@@ -8,7 +8,7 @@ const viteEnv =
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL ||
   viteEnv?.VITE_API_URL ||
-  'http://localhost:3000'
+  'http://localhost:4000'
 const ACCESS_TOKEN_KEY = 'gigashow_access_token'
 const AUTH_USER_KEY = 'gigashow_auth_user'
 

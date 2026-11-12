@@ -11,13 +11,13 @@ export default function TermsPage() {
           <article className="prose prose-slate max-w-none text-slate-600">
             <h2 className="mb-4 mt-8 text-xl font-bold text-[#2e3145]">1. Aceptación de los Términos</h2>
             <p className="mb-4 leading-relaxed">
-              Al acceder y utilizar GigaShow, usted acepta estar legalmente sujeto a estos Términos y Condiciones. Si no
+              Al acceder y utilizar Pequeñas Fiestas, usted acepta estar legalmente sujeto a estos Términos y Condiciones. Si no
               está de acuerdo con alguno de estos términos, por favor no utilice nuestra plataforma.
             </p>
 
             <h2 className="mb-4 mt-8 text-xl font-bold text-[#2e3145]">2. Descripción del Servicio</h2>
             <p className="mb-4 leading-relaxed">
-              GigaShow es una plataforma intermediaria que facilita la conexión entre clientes y artistas profesionales para
+              Pequeñas Fiestas es una plataforma intermediaria que facilita la conexión entre clientes y artistas profesionales para
               eventos. No somos una agencia de representación ni empleadores de los artistas registrados en nuestra
               plataforma.
             </p>
@@ -43,8 +43,8 @@ export default function TermsPage() {
 
             <h2 className="mb-4 mt-8 text-xl font-bold text-[#2e3145]">5. Propiedad Intelectual</h2>
             <p className="mb-4 leading-relaxed">
-              Todo el contenido de la plataforma (logotipos, textos, gráficos, código) es propiedad exclusiva de GigaShow.
-              El material subido por los artistas (fotos, descripciones) es propiedad de ellos, otorgando a GigaShow una
+              Todo el contenido de la plataforma (logotipos, textos, gráficos, código) es propiedad exclusiva de Pequeñas Fiestas.
+              El material subido por los artistas (fotos, descripciones) es propiedad de ellos, otorgando a Pequeñas Fiestas una
               licencia para mostrarlos.
             </p>
           </article>

@@ -15,8 +15,8 @@ const jakarta = Plus_Jakarta_Sans({
 })
 
 export const metadata: Metadata = {
-  title: 'GigaShow',
-  description: 'Plataforma profesional de contratación de artistas.',
+  title: 'Pequeñas Fiestas',
+  description: 'Pequeñas Fiestas - Plataforma profesional de contratación de artistas.',
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

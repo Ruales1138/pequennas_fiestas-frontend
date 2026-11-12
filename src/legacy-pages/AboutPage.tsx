@@ -23,7 +23,7 @@ export default function AboutPage() {
             Sobre Nosotros.
           </h1>
           <p className="mt-5 text-base leading-relaxed text-slate-600 sm:text-lg">
-            GigaShow es la primera plataforma diseñada para profesionalizar y dignificar la industria del entretenimiento,
+            Pequeñas Fiestas es la primera plataforma diseñada para profesionalizar y dignificar la industria del entretenimiento,
             conectando talento excepcional con eventos inolvidables de forma ética, segura y transparente.
           </p>
         </div>

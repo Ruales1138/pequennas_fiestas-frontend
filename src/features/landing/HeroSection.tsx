@@ -58,7 +58,7 @@ export default function HeroSection() {
       {/* Main centered editorial content */}
       <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center px-6 text-center">
         <h1 className="text-6xl font-extrabold tracking-tight text-[#12131a] sm:text-7xl md:text-[5.5rem] leading-none">
-          GigaShow.
+          Pequeñas Fiestas.
         </h1>
 
         <p className="mt-5 text-xl font-semibold tracking-tight text-[#1e1b4b] sm:text-2xl">

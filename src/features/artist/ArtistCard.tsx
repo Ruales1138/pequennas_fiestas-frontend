@@ -15,8 +15,7 @@ type ArtistCardProps = {
   }
 }
 
-const FALLBACK_IMAGE =
-  'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80'
+const FALLBACK_IMAGE = '/images/artists/artista_principal.jpg'
 
 export default function ArtistCard({ artist }: ArtistCardProps) {
   const reviewCount = Number.isFinite(Number(artist.ratingCount)) ? Number(artist.ratingCount) : undefined

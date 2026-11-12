@@ -35,7 +35,7 @@ export default function FeatureGrid() {
               Profesionalización del Sector
             </h3>
             <p className="mt-3 text-sm leading-relaxed text-slate-700">
-              GigaShow dignifica la industria del espectáculo. Formalizamos las condiciones de trabajo para artistas de talla baja, asegurando pagos justos, contratos claros y respeto absoluto en cada presentación.
+              Pequeñas Fiestas dignifica la industria del espectáculo. Formalizamos las condiciones de trabajo para artistas de talla baja, asegurando pagos justos, contratos claros y respeto absoluto en cada presentación.
             </p>
           </div>
         </div>

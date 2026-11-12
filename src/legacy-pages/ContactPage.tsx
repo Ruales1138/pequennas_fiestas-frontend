@@ -77,7 +77,7 @@ export default function ContactPage() {
                 </div>
                 <p className="text-lg font-bold text-[#12131a]">¡Solicitud enviada con éxito!</p>
                 <p className="mt-2 text-sm text-slate-600">
-                  Un consultor de GigaShow se pondrá en contacto contigo muy pronto.
+                  Un consultor de Pequeñas Fiestas se pondrá en contacto contigo muy pronto.
                 </p>
                 <Button
                   type="button"

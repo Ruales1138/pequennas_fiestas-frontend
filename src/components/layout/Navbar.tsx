@@ -121,7 +121,7 @@ export default function Navbar() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6">
         <div className="flex items-center gap-8">
           <Link href="/" onClick={closeMenu} className="text-xl font-bold tracking-tighter text-slate-900 dark:text-slate-50">
-            GigaShow
+            Pequeñas Fiestas
           </Link>
 
           <div className="hidden items-center gap-x-6 md:flex">

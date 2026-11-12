@@ -71,7 +71,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
           Crear cuenta.
         </h2>
         <p className="mt-2 text-sm text-slate-600">
-          Únete a GigaShow para reservar shows o publicar tu perfil artístico.
+          Únete a Pequeñas Fiestas para reservar shows o publicar tu perfil artístico.
         </p>
       </div>
 
