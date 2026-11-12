@@ -56,14 +56,16 @@ npm start
   - Si un usuario autenticado sin rol `admin` intenta acceder a `/admin`, visualiza la pantalla `403 Acceso prohibido` (`/403`).
 - **Panel de Administración (`/admin`):** Exclusivo para usuarios con rol `admin`. Permite auditar **Usuarios**, **Artistas**, **Reservas** y **Calificaciones**, así como activar o desactivar registros (borrado lógico) en tiempo real.
 
-### Credenciales de Prueba
+### Roles y Usuarios de Prueba (Seed)
 
-| Rol | Correo electrónico | Contraseña |
-| --- | --- | --- |
-| **Administrador (`admin`)** | `admin@gigashow.com` | `Admin123!` |
-| **Usuario estándar (`user`)** | `user@gigashow.com` | `User123!` |
-| **Cliente (`cliente`)** | `cliente@gigashow.com` | `Cliente123!` |
-| **Artista (`artista`)** | `artista@gigashow.com` | `Artista123!` |
+Los usuarios de prueba para cada rol se generan ejecutando `npm run seed` en el backend (ver `backend/src/infrastructure/prisma/seed.ts`), sin exponer contraseñas ni credenciales sensibles en el repositorio:
+
+| Rol | Acceso en la Plataforma |
+| --- | --- |
+| **Administrador (`admin`)** | Panel `/admin` y gestión completa de recursos |
+| **Usuario estándar (`user`)** | Catálogo, reservas y calificaciones (`403` en `/admin`) |
+| **Cliente (`cliente`)** | Catálogo, reservas y calificaciones (`403` en `/admin`) |
+| **Artista (`artista`)** | Panel `/dashboard` de artista |
 
 ---
 
