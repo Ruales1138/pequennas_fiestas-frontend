@@ -51,65 +51,77 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
   }
 
   return (
-    <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white shadow-sm">
-      <div className="border-b border-slate-200 px-6 py-5">
-        <h2 className="text-2xl font-bold text-slate-900">Iniciar sesión</h2>
-        <p className="mt-1 text-sm text-slate-600">Accede a tu cuenta</p>
+    <div className="w-full rounded-3xl border border-[#12131a]/15 bg-white/75 p-8 shadow-xl shadow-purple-950/5 backdrop-blur-xl sm:p-10">
+      <div className="mb-8 text-center">
+        <span className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-[#5b21b6]">
+          01 / ACCESO
+        </span>
+        <h2 className="mt-2 text-4xl font-extrabold tracking-tight text-[#12131a]">
+          Iniciar sesión.
+        </h2>
+        <p className="mt-2 text-sm text-slate-600">
+          Accede a tu cuenta para gestionar tus eventos y reservas.
+        </p>
       </div>
 
-      <div className="px-6 py-5">
-        {serverError && (
-          <div className="mb-4 rounded-md border border-rose-200 bg-rose-50 p-3 text-sm text-rose-700">
-            {serverError}
-          </div>
-        )}
-
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <div className="space-y-2">
-            <label className="block text-sm font-medium text-slate-700">Email</label>
-            <input
-              type="email"
-              {...form.register('email')}
-              placeholder="tu@email.com"
-              autoComplete="email"
-              disabled={isLoading}
-              className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-indigo-400 focus:outline-none disabled:opacity-50"
-            />
-            {form.formState.errors.email && (
-              <p className="text-xs text-rose-600">{String(form.formState.errors.email.message)}</p>
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <label className="block text-sm font-medium text-slate-700">Contraseña</label>
-            <input
-              type="password"
-              {...form.register('password')}
-              placeholder="Tu contraseña"
-              autoComplete="current-password"
-              disabled={isLoading}
-              className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-indigo-400 focus:outline-none disabled:opacity-50"
-            />
-            {form.formState.errors.password && (
-              <p className="text-xs text-rose-600">{String(form.formState.errors.password.message)}</p>
-            )}
-          </div>
-
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {isLoading ? 'Iniciando sesión...' : 'Iniciar sesión'}
-          </button>
-        </form>
-
-        <div className="mt-4 text-center text-sm text-slate-600">
-          ¿No tienes una cuenta?{' '}
-          <Link href="/register" className="font-semibold text-indigo-600 hover:text-indigo-500">
-            Regístrate
-          </Link>
+      {serverError && (
+        <div className="mb-6 rounded-2xl border border-rose-200 bg-rose-50/90 px-4 py-3 text-xs font-medium text-rose-700">
+          {serverError}
         </div>
+      )}
+
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+        <div className="space-y-1.5">
+          <label className="block pl-2 text-xs font-bold uppercase tracking-wider text-[#1e1b4b]">
+            Email
+          </label>
+          <input
+            type="email"
+            {...form.register('email')}
+            placeholder="tu@email.com"
+            autoComplete="email"
+            disabled={isLoading}
+            className="w-full rounded-full border border-[#12131a]/30 bg-white/70 px-5 py-3 text-sm text-[#12131a] placeholder:text-slate-400 transition focus:border-[#5b21b6] focus:bg-white focus:outline-none disabled:opacity-50"
+          />
+          {form.formState.errors.email && (
+            <p className="pl-2 text-xs text-rose-600">{String(form.formState.errors.email.message)}</p>
+          )}
+        </div>
+
+        <div className="space-y-1.5">
+          <label className="block pl-2 text-xs font-bold uppercase tracking-wider text-[#1e1b4b]">
+            Contraseña
+          </label>
+          <input
+            type="password"
+            {...form.register('password')}
+            placeholder="Tu contraseña"
+            autoComplete="current-password"
+            disabled={isLoading}
+            className="w-full rounded-full border border-[#12131a]/30 bg-white/70 px-5 py-3 text-sm text-[#12131a] placeholder:text-slate-400 transition focus:border-[#5b21b6] focus:bg-white focus:outline-none disabled:opacity-50"
+          />
+          {form.formState.errors.password && (
+            <p className="pl-2 text-xs text-rose-600">{String(form.formState.errors.password.message)}</p>
+          )}
+        </div>
+
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="mt-2 w-full rounded-full bg-[#5b21b6] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.16em] text-white shadow-md shadow-purple-900/20 transition hover:bg-[#4c1d95] disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {isLoading ? 'Iniciando sesión...' : 'Iniciar sesión'}
+        </button>
+      </form>
+
+      <div className="mt-7 border-t border-slate-200/70 pt-5 text-center text-xs text-slate-600">
+        ¿No tienes una cuenta?{' '}
+        <Link
+          href="/register"
+          className="ml-1 font-bold uppercase tracking-wider text-[#5b21b6] underline underline-offset-4 hover:text-[#4c1d95]"
+        >
+          Regístrate
+        </Link>
       </div>
     </div>
   )

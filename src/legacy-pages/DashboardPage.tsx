@@ -2,8 +2,8 @@
 
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/context/AuthContext'
-import { Card, CardContent, CardHeader } from '@/components/ui'
 import DashboardArtist from '@/features/artist/DashboardArtist'
+import ClientBookingsSection from '@/features/booking/ClientBookingsSection'
 import LoadingSpinner from '@/components/ui/LoadingSpinner'
 
 export function DashboardPage() {
@@ -12,17 +12,20 @@ export function DashboardPage() {
 
   if (isLoading) {
     return (
-      <main className="min-h-screen bg-background px-4 pt-28 pb-16">
+      <main className="min-h-screen bg-[#f4f1ff] px-4 pt-28 pb-16">
         <LoadingSpinner message="Cargando tu panel…" />
       </main>
     )
   }
 
-  // Only active artista sessions can access this route.
-  if (!user || user.role !== 'artista') {
-    router.replace('/401')
+  if (!user) {
+    router.replace('/login')
     return null
   }
 
-  return <DashboardArtist />
+  if (user.role === 'artista') {
+    return <DashboardArtist />
+  }
+
+  return <ClientBookingsSection />
 }

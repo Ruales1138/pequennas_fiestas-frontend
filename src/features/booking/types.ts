@@ -29,3 +29,18 @@ export type CreateBookingData = {
   jobHours: number
   agreedPrice: number
 }
+
+export type ClientBookingRecord = {
+  id: string | number
+  artistId?: string
+  artistName: string
+  artistEmail?: string
+  artistImage?: string | null
+  eventDate: string
+  eventLocation: string
+  jobHours?: number | string
+  agreedPrice?: number | string
+  description?: string
+  status: string
+  createdAt?: string
+}

@@ -37,9 +37,16 @@ export default function Navbar() {
                 Dashboard
               </Link>
             ) : (
-              <Link href="/catalog" className="font-sans font-semibold tracking-tight text-indigo-600 transition-colors duration-200 antialiased dark:text-indigo-400">
-                Artistas
-              </Link>
+              <>
+                <Link href="/catalog" className="font-sans font-semibold tracking-tight text-indigo-600 transition-colors duration-200 antialiased dark:text-indigo-400">
+                  Artistas
+                </Link>
+                {user && (
+                  <Link href="/dashboard" className="font-sans font-semibold tracking-tight text-[#5b21b6] transition-colors duration-200 hover:text-indigo-600 antialiased">
+                    Mis reservas
+                  </Link>
+                )}
+              </>
             )}
             <Link href="/about" className="font-sans tracking-tight text-slate-600 transition-colors duration-200 hover:text-indigo-600 antialiased dark:text-slate-400">
               Sobre nosotros
@@ -66,7 +73,7 @@ export default function Navbar() {
                 )}
               </div>
               <Link
-                href={user.role === 'admin' ? '/admin' : user.role === 'artista' ? '/dashboard' : '/'}
+                href={user.role === 'admin' ? '/admin' : '/dashboard'}
                 className="text-sm font-medium text-slate-700 hover:text-indigo-600 dark:text-slate-300"
               >
                 {user.name || 'Mi panel'}
@@ -121,9 +128,16 @@ export default function Navbar() {
                 Dashboard
               </Link>
             ) : (
-              <Link href="/catalog" onClick={closeMenu} className="text-lg font-semibold text-indigo-600">
-                Artistas
-              </Link>
+              <>
+                <Link href="/catalog" onClick={closeMenu} className="text-lg font-semibold text-indigo-600">
+                  Artistas
+                </Link>
+                {user && (
+                  <Link href="/dashboard" onClick={closeMenu} className="text-lg font-semibold text-[#5b21b6]">
+                    Mis reservas
+                  </Link>
+                )}
+              </>
             )}
             <Link href="/about" onClick={closeMenu} className="text-lg font-medium text-slate-600">
               Sobre nosotros

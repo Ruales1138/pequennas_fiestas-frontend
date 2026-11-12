@@ -23,7 +23,9 @@ export default function BookingForm({ artist }: { artist: BookingArtist }) {
   const router = useRouter()
 
   const baseRate = Number(artist?.hourlyRate || 0)
-  const isUserAuthorized = Boolean(user && user.role === 'cliente')
+  const isUserAuthorized = Boolean(
+    user && (user.role === 'cliente' || user.role === 'user' || user.role === 'admin'),
+  )
   const isArtistUser = user?.role === 'artista'
 
   const form = useForm<BookingFormValues>({
@@ -149,6 +151,10 @@ export default function BookingForm({ artist }: { artist: BookingArtist }) {
               {...form.register('eventDate', {
                 required: 'La fecha del evento es requerida',
               })}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                form.setValue('eventDate', event.target.value)
+                handleTimeChange()
+              }}
               className="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm placeholder-zinc-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
             />
             {form.formState.errors.eventDate && (
@@ -221,13 +227,22 @@ export default function BookingForm({ artist }: { artist: BookingArtist }) {
 
         {submitMessage.text && (
           <div
-            className={`mt-6 rounded-lg px-4 py-3 text-sm ${
+            className={`mt-6 flex flex-wrap items-center justify-between gap-3 rounded-lg px-4 py-3 text-sm ${
               submitMessage.type === 'success'
                 ? 'border border-green-200 bg-green-50 text-green-800'
                 : 'border border-red-200 bg-red-50 text-red-800'
             }`}
           >
-            {submitMessage.text}
+            <span>{submitMessage.text}</span>
+            {submitMessage.type === 'success' && (
+              <button
+                type="button"
+                onClick={() => router.push('/dashboard')}
+                className="rounded-full bg-green-700 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-green-800"
+              >
+                Ver mis reservas →
+              </button>
+            )}
           </div>
         )}
 
