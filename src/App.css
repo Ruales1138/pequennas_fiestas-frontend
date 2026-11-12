@@ -172,11 +172,13 @@ html.dark .bg-\[\#e9e5ff\] {
 html.dark .bg-slate-50,
 html.dark .bg-slate-50\/50,
 html.dark .bg-slate-100,
+html.dark .bg-zinc-50,
+html.dark .bg-zinc-100,
 html.dark .bg-gray-50,
 html.dark .bg-gray-100 {
-  background-color: rgba(49, 46, 129, 0.35) !important;
-  border-color: rgba(167, 139, 250, 0.3) !important;
-  color: #e2e8f0 !important;
+  background-color: rgba(34, 27, 64, 0.88) !important;
+  border-color: rgba(167, 139, 250, 0.32) !important;
+  color: #f8fafc !important;
 }
 
 html.dark .bg-indigo-50,
@@ -188,6 +190,7 @@ html.dark .bg-indigo-200 {
 }
 
 html.dark .bg-emerald-50,
+html.dark .bg-green-50,
 html.dark .bg-green-100 {
   background-color: rgba(16, 185, 129, 0.18) !important;
   border-color: rgba(52, 211, 153, 0.35) !important;
@@ -195,6 +198,7 @@ html.dark .bg-green-100 {
 }
 
 html.dark .bg-rose-50,
+html.dark .bg-red-50,
 html.dark .bg-red-100 {
   background-color: rgba(244, 63, 94, 0.18) !important;
   border-color: rgba(251, 113, 133, 0.35) !important;
@@ -227,9 +231,11 @@ html.dark .text-slate-400,
 html.dark .text-gray-700,
 html.dark .text-gray-600,
 html.dark .text-gray-500,
+html.dark .text-zinc-700,
 html.dark .text-zinc-600,
-html.dark .text-zinc-500 {
-  color: #cbd5e1 !important;
+html.dark .text-zinc-500,
+html.dark .text-zinc-400 {
+  color: #e2e8f0 !important;
 }
 
 html.dark .text-\[\#5b21b6\],
@@ -240,15 +246,18 @@ html.dark .text-indigo-600 {
 }
 
 html.dark .text-emerald-700,
+html.dark .text-green-800,
 html.dark .text-green-700 {
   color: #6ee7b7 !important;
 }
 
 html.dark .text-rose-700,
+html.dark .text-red-800,
 html.dark .text-red-600 {
   color: #fda4af !important;
 }
 
+html.dark .text-amber-800,
 html.dark .text-amber-700 {
   color: #fcd34d !important;
 }
@@ -256,8 +265,11 @@ html.dark .text-amber-700 {
 html.dark .border-slate-100,
 html.dark .border-slate-200,
 html.dark .border-slate-300,
+html.dark .border-zinc-100,
+html.dark .border-zinc-200,
+html.dark .border-amber-200,
 html.dark hr {
-  border-color: rgba(139, 92, 246, 0.22) !important;
+  border-color: rgba(139, 92, 246, 0.28) !important;
 }
 
 html.dark .border-rose-200 {

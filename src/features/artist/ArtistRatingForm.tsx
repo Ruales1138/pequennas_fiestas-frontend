@@ -76,9 +76,9 @@ export default function ArtistRatingForm({ artistId, artistName, onSubmitted }: 
 
   if (!user) {
     return (
-      <div className="rounded-xl bg-white p-4 shadow-sm">
-        <p className="text-sm font-semibold text-zinc-900">Califica a {artistName}</p>
-        <p className="mt-2 text-sm text-zinc-600">{helperText}</p>
+      <div className="rounded-xl bg-white p-4 shadow-sm dark:bg-[#110d22]">
+        <p className="text-sm font-semibold text-zinc-900 dark:text-white">Califica a {artistName}</p>
+        <p className="mt-2 text-sm text-zinc-600 dark:text-slate-300">{helperText}</p>
         <div className="mt-4 flex flex-wrap gap-3">
           <button
             type="button"
@@ -90,7 +90,7 @@ export default function ArtistRatingForm({ artistId, artistName, onSubmitted }: 
           <button
             type="button"
             onClick={() => router.push('/register')}
-            className="rounded-lg border border-zinc-200 px-4 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-50"
+            className="rounded-lg border border-zinc-200 px-4 py-2 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 dark:border-indigo-400/50 dark:bg-indigo-500/15 dark:text-indigo-200 dark:hover:bg-indigo-500/25"
           >
             Registrarse
           </button>
