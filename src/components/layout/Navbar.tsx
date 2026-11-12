@@ -182,11 +182,11 @@ export default function Navbar() {
               </Button>
             </div>
           ) : (
-            <div className="flex items-center gap-4">
-              <Button asChild variant="ghost" className="px-3 py-2 text-sm">
+            <div className="flex items-center gap-3">
+              <Button asChild variant="ghost" className="px-3 py-2 text-sm font-medium text-slate-700 hover:text-indigo-600 dark:text-slate-200 dark:hover:bg-white/10 dark:hover:text-white">
                 <Link href="/login">Iniciar sesión</Link>
               </Button>
-              <Button asChild className="px-3 py-2 text-sm">
+              <Button asChild className="rounded-lg bg-[#5b21b6] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#4c1d95] dark:bg-[#7c3aed] dark:text-white dark:hover:bg-[#6d28d9]">
                 <Link href="/register">Registrarse</Link>
               </Button>
             </div>
