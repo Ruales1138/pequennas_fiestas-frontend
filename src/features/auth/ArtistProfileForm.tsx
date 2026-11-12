@@ -15,12 +15,15 @@ import {
 import type { ArtistDetail } from '@/features/artist/types'
 
 const CATEGORIES = [
-  { value: 'musica', label: 'Música en vivo' },
-  { value: 'teatro', label: 'Teatro' },
-  { value: 'talleres', label: 'Talleres' },
-  { value: 'dj', label: 'DJ' },
-  { value: 'otros', label: 'Otros' },
-  { value: 'animacion_infantil', label: 'Animación infantil' },
+  { value: 'Música', label: 'Música en vivo' },
+  { value: 'Comedia', label: 'Comedia / Stand-up' },
+  { value: 'Magia', label: 'Magia e Ilusionismo' },
+  { value: 'Animación', label: 'Animación' },
+  { value: 'Acrobacia', label: 'Acrobacia' },
+  { value: 'DJ', label: 'DJ' },
+  { value: 'Teatro', label: 'Teatro' },
+  { value: 'Talleres', label: 'Talleres' },
+  { value: 'Otros', label: 'Otros' },
 ]
 
 interface ArtistProfileFormProps {
@@ -104,6 +107,7 @@ export default function ArtistProfileForm({
     const formData = new FormData()
     formData.append('image', file)
     if (artistId) formData.append('artistId', artistId)
+    if (userId) formData.append('userId', userId)
 
     const payload = await apiRequest<{ fileUrl: string }>('/api/upload/image', {
       method: 'POST',
@@ -118,9 +122,10 @@ export default function ArtistProfileForm({
     setIsLoading(true)
 
     try {
+      let uploadedImageUrl: string | undefined = initialProfile?.imageUrl
       if (imageFile) {
-        const imageUrl = await uploadImageLocal(imageFile)
-        await authService.updateImageUser(imageUrl)
+        uploadedImageUrl = await uploadImageLocal(imageFile)
+        await authService.updateImageUser(uploadedImageUrl)
       }
 
       const profile = {
@@ -131,6 +136,7 @@ export default function ArtistProfileForm({
         city: data.city,
         coverageArea: data.coverageArea,
         category: data.category,
+        ...(uploadedImageUrl ? { imageUrl: uploadedImageUrl } : {}),
       }
 
       if (artistId) {
@@ -167,14 +173,27 @@ export default function ArtistProfileForm({
           <div className="flex flex-col items-center gap-3">
             <div
               onClick={() => fileInputRef.current?.click()}
-              className="flex h-24 w-24 cursor-pointer items-center justify-center overflow-hidden rounded-full border-2 border-dashed border-slate-300 bg-slate-50 transition-colors hover:border-indigo-400"
+              className="flex h-28 w-28 cursor-pointer items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-indigo-300 bg-indigo-50/40 transition-colors hover:border-indigo-500"
             >
-              {imagePreview ? (
-                <img src={imagePreview} alt="Preview" className="h-full w-full object-cover" />
+              {imagePreview || initialProfile?.imageUrl ? (
+                <img
+                  src={imagePreview || initialProfile?.imageUrl}
+                  alt="Preview"
+                  className="h-full w-full object-cover"
+                />
               ) : (
-                <span className="px-2 text-center text-xs text-slate-500">Subir foto</span>
+                <span className="px-2 text-center text-xs font-semibold text-indigo-700">
+                  Subir foto (Archivo)
+                </span>
               )}
             </div>
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="rounded-full border border-indigo-200 bg-indigo-50 px-4 py-1.5 text-xs font-semibold text-indigo-700 transition hover:bg-indigo-100"
+            >
+              Seleccionar archivo de imagen (JPG, PNG, WEBP)
+            </button>
             <input
               ref={fileInputRef}
               type="file"

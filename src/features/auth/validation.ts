@@ -20,12 +20,10 @@ export const signInSchema = z.object({
 
 export const artistProfileSchema = z.object({
   bio: z.string().min(10, 'La biografía debe tener al menos 10 caracteres').max(500),
-  contactPhone: z.string().min(7, 'Telefono invalido'),
+  contactPhone: z.string().min(7, 'Teléfono inválido'),
   contactSocial: z.string().max(200, 'El contacto social no puede superar 200 caracteres'),
   baseRate: z.coerce.number().positive('La tarifa base debe ser mayor a 0').max(10000000, 'La tarifa base no puede ser tan alta'),
   city: z.string().min(2, 'Ingresa tu ciudad'),
   coverageArea: z.string().min(2, 'Ingresa tu área de cobertura'),
-  category: z.enum(['musica', 'animación', 'talleres', 'otros', 'dj', 'teatro', 'animacion_infantil'], {
-    message: 'Selecciona una categoría válida',
-  }),
+  category: z.string().min(2, 'Selecciona una categoría válida'),
 })

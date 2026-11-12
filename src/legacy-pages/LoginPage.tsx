@@ -1,6 +1,25 @@
+'use client'
+
+import { useEffect, useRef } from 'react'
+import { useRouter } from 'next/navigation'
+import { useAuth } from '@/context/AuthContext'
 import { LoginForm } from '../features/auth/LoginForm'
 
 export function LoginPage() {
+  const { user, isLoading } = useAuth()
+  const router = useRouter()
+  const checkedInitialSession = useRef(false)
+
+  useEffect(() => {
+    if (isLoading) return
+    if (!checkedInitialSession.current) {
+      checkedInitialSession.current = true
+      if (user) {
+        router.replace('/')
+      }
+    }
+  }, [isLoading, user, router])
+
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#f4f1ff] px-4 pb-16 pt-28">
       {/* Left soft organic mesh orb */}
